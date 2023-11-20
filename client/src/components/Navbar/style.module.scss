@@ -1,0 +1,102 @@
+@import '@styles/base';
+
+.headerWrapper {
+  background-color: transparent !important;
+  // box-shadow: 0 0.25rem 0.75rem rgba(25, 49, 83, 0.2) !important;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  .contentWrapper {
+    @include directionX;
+
+    color: $color-primary;
+    padding: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+
+    .logoImage {
+      @include directionX;
+      cursor: pointer;
+      align-items: center;
+
+      .logo {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.5rem;
+      }
+      .title {
+        font-family: 'Bungee Spice', sans-serif;
+        font-size: 1.25rem;
+      }
+    }
+
+    .toolbar {
+      @include directionX;
+      gap: 1rem;
+      .authButton {
+        display: none;
+        cursor: pointer;
+        border-radius: 0.5rem;
+        padding: 0.25rem 0.75rem;
+        border: 1px solid $color-primary;
+        color: $color-primary;
+        font-weight: 700;
+        font-size: 0.85rem;
+
+        @include apply-at-sm-size {
+          display: block;
+        }
+        &:hover {
+          background-color: $color-primary;
+          color: $color-white;
+        }
+      }
+      .toggle {
+        @include directionX;
+        align-items: center;
+        cursor: pointer;
+
+        .avatar {
+          width: 1.2rem;
+          height: 1.2rem;
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+          margin-right: 0.5rem;
+        }
+
+        .lang {
+          font-family: Quantico, Poppins, Arial, Helvetica, sans-serif;
+          font-weight: 700;
+          font-size: 1rem;
+          text-transform: uppercase;
+        }
+
+        .arrow {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.dropdown {
+  &:hover {
+    background-color: black !important;
+  }
+  .menu {
+    @include directionX;
+    align-items: center;
+
+    .menuAvatar {
+      width: 1rem;
+      height: 1rem;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      margin-right: 0.5rem;
+    }
+
+    .menuLang {
+      font-family: Quantico, Poppins, Arial, Helvetica, sans-serif;
+      font-size: 0.8rem;
+    }
+  }
+}

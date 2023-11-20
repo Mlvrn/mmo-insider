@@ -1,0 +1,10 @@
+@import '@styles/base';
+
+.layout {
+  @include flex-center;
+
+  height: auto;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}

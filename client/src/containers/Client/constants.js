@@ -1,0 +1,7 @@
+export const SET_LOGIN = 'Client/SET_LOGIN';
+export const SET_TOKEN = 'Client/SET_TOKEN';
+export const LOGIN_USER = 'LOGIN_USER';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const REGISTER_USER = 'REGISTER_USER';
+export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';
+export const REGISTRATION_FAILURE = 'REGISTRATION_FAILURE';

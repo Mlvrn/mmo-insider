@@ -1,0 +1,30 @@
+@import '@styles/base';
+
+.inputContainer {
+  position: relative;
+  @include flex-items-center;
+  width: 100%;
+  @include apply-at-md-size {
+    width: auto;
+  }
+
+  .icon {
+    position: absolute;
+    left: 0.4rem;
+    color: black;
+    @include flex-center;
+    svg {
+      @include box(1rem);
+    }
+  }
+
+  .formInput {
+    font-family: 'Quantico', sans-serif;
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+    padding-left: 1.75rem;
+    width: 100%;
+  }
+}

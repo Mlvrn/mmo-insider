@@ -1,0 +1,73 @@
+@import '@styles/base';
+
+.heroContainer {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@static/images/hero.jpeg');
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+  width: 100%;
+  height: 25rem;
+  @include apply-at-md-size {
+    height: 30rem;
+  }
+  .hero {
+    @include flex-center-column;
+    gap: 0.5rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 100%;
+    text-align: center;
+    color: $color-white;
+    @include apply-at-md-size {
+      width: 40rem;
+    }
+    .heroTitle {
+      font-size: 2.25rem;
+      font-weight: bold;
+      background-image: linear-gradient(to bottom, $color-secondary, $color-primary);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      @include apply-at-md-size {
+        font-size: 3rem;
+      }
+    }
+    .heroSubtitle {
+      font-size: 1rem;
+      @include apply-at-md-size {
+        font-size: 1.5rem;
+      }
+    }
+    .heroDescription {
+      margin-top: 1rem;
+      font-size: 0.5rem;
+      max-width: 15rem;
+      @include apply-at-md-size {
+        width: 20rem;
+        font-size: 0.6rem;
+      }
+    }
+    .heroButton {
+      @include flex-center;
+      gap: 0.35rem;
+      cursor: pointer;
+      position: relative;
+      background: linear-gradient(to bottom, $color-secondary, $color-primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      margin-top: 2rem;
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      .buttonArrow {
+        @include box(1rem);
+        @include apply-at-md-size {
+          @include box(1.1rem);
+        }
+      }
+    }
+  }
+}
