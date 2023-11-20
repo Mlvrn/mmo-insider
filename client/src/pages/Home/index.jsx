@@ -1,12 +1,24 @@
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-
+import { connect, useDispatch } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { ArrowRight } from 'lucide-react';
+import PostCard from '@components/PostCard';
+
+import { getAllPosts } from './actions';
+import { selectPosts } from './selectors';
 
 import classes from './style.module.scss';
 
-const Home = () => {
+const Home = ({ posts }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, [dispatch]);
 
   const navigateAuth = () => {
     navigate('/auth');
@@ -32,12 +44,27 @@ const Home = () => {
           </div>
         </div>
         <div className={classes.sectionContainer}>
-          <div className={classes.sectionTitle}>Latest News</div>
-          <div className={classes.postContainer}></div>
+          <div>
+            <div className={classes.sectionTitle}>The Latest from MMO Insider</div>
+            <div className={classes.sectionSubtitle}>Stay informed with our informative articles.</div>
+          </div>
+          <div className={classes.postContainer}>
+            {posts.map((post) => (
+              <PostCard key={post?.id} post={post} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Home;
+Home.propTypes = {
+  posts: PropTypes.array,
+};
+
+const mapStateToProps = createStructuredSelector({
+  posts: selectPosts,
+});
+
+export default connect(mapStateToProps)(Home);

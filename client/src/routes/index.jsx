@@ -5,6 +5,8 @@ import AuthPage from '@pages/Auth';
 import Home from '@pages/Home';
 
 import NotFound from '@pages/NotFound';
+import PostDetail from '@pages/PostDetail';
+import VerifySuccess from '@pages/VerifySuccess';
 
 const routes = [
   {
@@ -21,6 +23,21 @@ const routes = [
     component: AuthPage,
     layout: AuthLayout,
   },
+  {
+    path: '/verify-success',
+    name: 'VerifySuccess',
+    protected: false,
+    component: VerifySuccess,
+    layout: MainLayout,
+  },
+  {
+    path: '/post/:postId',
+    name: 'PostDetail',
+    protected: false,
+    component: PostDetail,
+    layout: MainLayout,
+  },
+
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
 ];
 

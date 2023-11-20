@@ -3,6 +3,8 @@
 .page {
   display: block;
   width: 100%;
+  position: absolute;
+  top: 0;
   @include apply-at-sm-size {
     @include flex-center-column;
   }

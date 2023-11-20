@@ -19,8 +19,10 @@
 
 body {
   margin: 0;
-  background-color: var(--color-bg-secondary);
-  color: var(--color-text);
+  // background-color: var(--color-bg-secondary);
+  background-color: $color-bg;
+  // color: var(--color-text);
+  color: $color-text-primary;
 }
 
 html[data-theme='light'] {

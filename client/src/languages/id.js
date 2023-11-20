@@ -27,6 +27,9 @@ export default {
   app_hero_title: 'Masuki Arena Legenda',
   app_hero_subtitle: 'Jelajahi Semesta MMORPG',
   app_hero_description:
-    'Bergabunglah dengan komunitas di mana legenda menjadi nyata. Bergabunglah dengan kami untuk menemukan berita terbaru, berbagi cerita Anda sendiri, dan terhubung dengan sesama gamer dalam komunitas yang hidup.',
+    'Bergabunglah dengan komunitas game yang penuh semangat untuk menemukan berita, berbagi cerita, dan terhubung dengan sesama gamer.',
   app_hero_button: 'Mulai Disini',
+  app_verification_success_title: 'Verifikasi Email Berhasil!',
+  app_verification_success_description:
+    'Email Anda telah berhasil diverifikasi. Anda sekarang siap untuk mulai menjelajahi.',
 };

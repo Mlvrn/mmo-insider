@@ -9,7 +9,12 @@ const {
 const { User } = require('../models');
 const { Op } = require('sequelize');
 const { comparePassword } = require('../utils/bcrypt');
-const { generateToken } = require('../utils/jwt');
+const {
+  generateToken,
+  generateVerificationToken,
+  verifyToken,
+} = require('../utils/jwt');
+const { sendVerificationEmail } = require('../utils/nodemailer');
 
 exports.register = async (req, res) => {
   try {
@@ -37,10 +42,18 @@ exports.register = async (req, res) => {
       password,
       email,
       role: 2,
+      isEmailVerified: false,
     });
+    const verificationToken = generateVerificationToken(newUser);
+    await newUser.update({ verificationToken });
+
+    const verificationLink = `${process.env.BACKEND_BASE_URL}/api/user/verify-email?token=${newUser.verificationToken}`;
+
+    sendVerificationEmail(email, verificationLink);
 
     return handleResponse(res, 201, newUser);
   } catch (error) {
+    console.log(error);
     return handleServerError(res);
   }
 };
@@ -63,6 +76,13 @@ exports.login = async (req, res) => {
       });
     }
 
+    if (!user.isEmailVerified) {
+      return handleResponse(res, 403, {
+        message:
+          'Your email address is not verified. Please check your email for the verification link.',
+      });
+    }
+
     const isPasswordMatch = await comparePassword(password, user.password);
     if (!isPasswordMatch) {
       return handleResponse(res, 400, {
@@ -75,6 +95,26 @@ exports.login = async (req, res) => {
       message: 'Login Successful!',
     });
   } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.query;
+    const decoded = verifyToken(token);
+    const user = await User.findByPk(decoded.id);
+
+    if (user && user.email === decoded.email) {
+      user.isEmailVerified = true;
+      user.verificationToken = null;
+      await user.save();
+      res.redirect(`${process.env.FRONTEND_BASE_URL}/verify-success`);
+    } else {
+      return handleResponse(res, 400, { message: 'Invalid token.' });
+    }
+  } catch (error) {
+    console.log(error);
     return handleServerError(res);
   }
 };

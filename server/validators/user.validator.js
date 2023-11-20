@@ -26,20 +26,20 @@ const loginValidator = Joi.object({
   email: Joi.string().email().required().messages({
     'string.base': 'Email must be a string',
     'string.email': 'Email must be a valid email',
-    'any.required': 'Email is required',
+    'string.empty': 'Email is required',
   }),
   password: Joi.string().required().messages({
-    'any.required': 'Password is required',
+    'string.empty': 'Password is required',
   }),
 });
 
 const changePasswordValidator = Joi.object({
   oldPassword: Joi.string().required().messages({
-    'any.required': 'Old password is required',
+    'string.empty': 'Old password is required',
   }),
   newPassword: Joi.string().min(8).required().messages({
     'string.min': 'New password must be at least {#limit} characters long',
-    'any.required': 'New password is required',
+    'string.empty': 'New password is required',
   }),
 });
 

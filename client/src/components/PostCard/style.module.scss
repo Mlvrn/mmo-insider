@@ -1,0 +1,38 @@
+@import '@styles/base';
+
+.post {
+  cursor: pointer;
+  @include flex-items-center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border: 1px solid transparent;
+  &:hover {
+    color: $color-primary;
+
+    border-top: 1px solid $color-primary;
+    border-bottom: 1px solid $color-primary;
+  }
+
+  &:hover .postImage {
+    box-shadow: 0 0 10px 1px $color-secondary;
+  }
+  .postImage {
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+  }
+  .postContent {
+    @include flex-column;
+    gap: 0.5rem;
+    .postTitle {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .postDescription {
+      font-size: 0.8rem;
+    }
+    .postAuthor {
+      font-size: 0.6rem;
+      color: $color-text-secondary;
+    }
+  }
+}

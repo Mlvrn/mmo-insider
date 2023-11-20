@@ -27,6 +27,9 @@ export default {
   app_hero_title: 'Enter the Arena of Legends',
   app_hero_subtitle: 'Navigate the MMORPG Universe',
   app_hero_description:
-    'Join a community where legends come alive. Join us to discover the latest news, share your own stories, and connect with fellow gamers in a vibrant community.',
+    'Join a vibrant gaming community to discover news, share stories, and connect with fellow gamers.',
   app_hero_button: 'Explore Now',
+  app_verification_success_title: 'Email Verification Successful!',
+  app_verification_success_description:
+    "Your email address has been successfully verified. You're all set to start exploring.",
 };

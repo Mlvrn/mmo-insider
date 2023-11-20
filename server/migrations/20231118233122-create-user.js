@@ -24,6 +24,18 @@ module.exports = {
       role: {
         type: Sequelize.INTEGER,
       },
+      avatar: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      verificationToken: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      isEmailVerified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

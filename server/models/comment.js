@@ -9,9 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Comment.belongsTo(models.User, {
-        foreignKey: {
-          name: 'userId',
-        },
+        foreignKey: 'userId',
+      });
+      Comment.belongsTo(models.Post, {
+        foreignKey: 'postId',
+      });
+      Comment.hasMany(models.Comment, {
+        as: 'replies',
+        foreignKey: 'parentId',
       });
     }
   }
@@ -20,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       text: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      parentId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
     },
     {

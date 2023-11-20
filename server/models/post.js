@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
           name: 'authorId',
         },
       });
+      Post.hasMany(models.Comment, {
+        foreignKey: { name: 'postId' },
+      });
       Post.belongsToMany(models.User, {
         as: 'likedUsers',
         foreignKey: 'postId',
@@ -32,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       thumbnail: DataTypes.STRING,
+      mainImage: DataTypes.STRING,
       content: {
         type: DataTypes.TEXT,
         allowNull: false,

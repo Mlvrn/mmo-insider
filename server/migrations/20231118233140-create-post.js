@@ -27,6 +27,9 @@ module.exports = {
       thumbnail: {
         type: Sequelize.STRING,
       },
+      mainImage: {
+        type: Sequelize.STRING,
+      },
       content: {
         allowNull: false,
         type: Sequelize.TEXT,

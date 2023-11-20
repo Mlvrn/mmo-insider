@@ -18,6 +18,17 @@ const Navbar = ({ title, locale }) => {
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
   const open = Boolean(menuPosition);
+  const [color, setColor] = useState(false);
+
+  const changeColor = () => {
+    if (window.scrollY >= 500) {
+      setColor(true);
+    } else {
+      setColor(false);
+    }
+  };
+
+  window.addEventListener('scroll', changeColor);
 
   const handleClick = (event) => {
     setMenuPosition(event.currentTarget);
@@ -43,7 +54,10 @@ const Navbar = ({ title, locale }) => {
   };
 
   return (
-    <div className={classes.headerWrapper} data-testid="navbar">
+    <div
+      className={color ? `${classes.headerWrapper} ${classes.headerWrapperBg}` : ` ${classes.headerWrapper} `}
+      data-testid="navbar"
+    >
       <div className={classes.contentWrapper}>
         <div className={classes.logoImage} onClick={goHome}>
           <Swords className={classes.logo} />
