@@ -2,9 +2,15 @@
 
 .post {
   cursor: pointer;
-  @include flex-items-center;
+  @include flex-column;
+  @include apply-at-md-size {
+    @include flex-items-center;
+    flex-direction: row;
+    padding: 0.5rem 0;
+  }
+
   gap: 1rem;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
   border: 1px solid transparent;
   &:hover {
     color: $color-primary;
@@ -19,6 +25,11 @@
   .postImage {
     border-radius: 0.5rem;
     border: 1px solid transparent;
+    max-width: 100%;
+    @include box(auto);
+    @include apply-at-md-size {
+      max-width: 15rem;
+    }
   }
   .postContent {
     @include flex-column;

@@ -19,7 +19,6 @@ module.exports = {
       postData.map((post) => ({
         title: post.title,
         shortDescription: post.short_description,
-        thumbnail: post.thumbnail,
         mainImage: post.main_image,
         content: post.article_content,
         authorId: getRandomUserId(),

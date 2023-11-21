@@ -13,7 +13,7 @@ const PostCard = ({ post }) => {
   };
   return (
     <div className={classes.post} onClick={navigateDetails}>
-      <img src={post?.thumbnail} alt={post?.title} className={classes.postImage} />
+      <img src={post?.mainImage} alt={post?.title} className={classes.postImage} />
       <div className={classes.postContent}>
         <div className={classes.postTitle}>{post?.title}</div>
         <div className={classes.postDescription}>{post?.shortDescription}</div>

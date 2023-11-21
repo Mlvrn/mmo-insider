@@ -11,12 +11,13 @@ import { Swords } from 'lucide-react';
 
 import { setLocale } from '@containers/App/actions';
 
-import classes from './style.module.scss';
 import { Logout } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { createStructuredSelector } from 'reselect';
 import { selectUser } from '@containers/Client/selectors';
 import { logoutUser } from '@containers/Client/actions';
+
+import classes from './style.module.scss';
 
 const Navbar = ({ title, locale, user }) => {
   const dispatch = useDispatch();
@@ -95,7 +96,7 @@ const Navbar = ({ title, locale, user }) => {
           </div>
           {user && (
             <IconButton onClick={handleAvatarClick}>
-              <Avatar className={classes.avatar} src="https://source.unsplash.com/500x500/?avatar" />
+              <Avatar className={classes.avatarUser} src="https://source.unsplash.com/500x500/?avatar" />
             </IconButton>
           )}
           <Menu

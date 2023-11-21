@@ -56,7 +56,11 @@
         @include directionX;
         align-items: center;
         cursor: pointer;
-
+        border-radius: 0.5rem;
+        padding: 0.25rem;
+        &:hover {
+          box-shadow: 0 0 10px 1px $color-secondary !important;
+        }
         .avatar {
           width: 1.2rem;
           height: 1.2rem;
@@ -145,5 +149,11 @@
   .divider {
     @include box(100%, 1px);
     background-color: $color-text-secondary;
+  }
+}
+
+.avatarUser {
+  &:hover {
+    box-shadow: 0 0 10px 1px $color-secondary !important;
   }
 }

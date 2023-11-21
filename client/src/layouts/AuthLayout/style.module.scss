@@ -17,6 +17,11 @@
     width: auto;
     bottom: 3rem;
     right: auto;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    &:hover {
+      box-shadow: 0 0 10px 1px $color-secondary !important;
+    }
     @include apply-at-sm-size {
       top: 1rem;
       right: 1rem;
