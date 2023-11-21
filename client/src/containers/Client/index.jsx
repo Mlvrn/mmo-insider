@@ -10,7 +10,7 @@ const Client = ({ login, children }) => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!login) {
-      navigate('/login');
+      navigate('/auth');
     }
   }, [login, navigate]);
 

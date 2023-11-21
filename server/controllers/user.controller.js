@@ -118,3 +118,32 @@ exports.verifyEmail = async (req, res) => {
     return handleServerError(res);
   }
 };
+
+exports.getUsers = async (req, res) => {
+  try {
+    const response = await User.findAll();
+    return handleResponse(res, 200, response);
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return handleResponse(res, 404, {
+        message: 'User not found.',
+      });
+    }
+    const { email, username, role } = user;
+
+    return handleResponse(res, 200, { email, username, role });
+  } catch (error) {
+    console.log(error);
+    return handleServerError(res);
+  }
+};

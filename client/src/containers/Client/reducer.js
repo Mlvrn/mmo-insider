@@ -1,21 +1,16 @@
 import { produce } from 'immer';
 
-import {
-  LOGIN_FAILURE,
-  REGISTRATION_FAILURE,
-  REGISTRATION_SUCCESS,
-  SET_LOGIN,
-  SET_TOKEN,
-} from '@containers/Client/constants';
+import { LOGOUT_USER, REGISTRATION_SUCCESS, SET_LOGIN, SET_TOKEN, SET_USER } from '@containers/Client/constants';
 
 export const initialState = {
   login: false,
   token: null,
+  user: null,
   data: null,
   error: null,
 };
 
-export const storedKey = ['token', 'login'];
+export const storedKey = ['token', 'login', 'user'];
 
 const clientReducer = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -26,15 +21,14 @@ const clientReducer = (state = initialState, action) =>
       case SET_TOKEN:
         draft.token = action.token;
         break;
-      case LOGIN_FAILURE:
-        draft.error = action.error;
+      case SET_USER:
+        draft.user = action.user;
         break;
       case REGISTRATION_SUCCESS:
         draft.data = action.data;
         break;
-      case REGISTRATION_FAILURE:
-        draft.error = action.error;
-        break;
+      case LOGOUT_USER:
+        return initialState;
     }
   });
 

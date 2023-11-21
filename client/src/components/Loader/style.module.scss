@@ -16,15 +16,17 @@
   width: 100%;
   display: none;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
-  background: $color-white-fade;
   z-index: 9990;
 
+  .loader {
+    width: 100%;
+    height: 0.25rem;
+  }
   @media (prefers-reduced-motion: no-preference) {
     img {
-      width: 3.75rem;
-      height: 60px;
+      @include box(1rem);
       border-radius: 100%;
       padding: 0.75rem;
       animation: image-spin infinite 0.8s linear;

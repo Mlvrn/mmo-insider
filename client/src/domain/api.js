@@ -36,3 +36,5 @@ export const loginApi = (data) => callAPI(`${endpoints.user}/login`, 'POST', {},
 
 export const getPostsApi = () => callAPI(`${endpoints.post}/all`, 'GET');
 export const getPostByIdApi = (postId) => callAPI(`${endpoints.post}/${postId}`, 'GET');
+export const getUsersApi = () => callAPI(`${endpoints.user}/all`, 'GET');
+export const getUserByIdApi = (token) => callAPI(`${endpoints.user}`, 'GET', { Authorization: `Bearer ${token}` });

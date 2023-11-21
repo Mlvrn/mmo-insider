@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { LinearProgress } from '@mui/material';
 
 import classes from './style.module.scss';
 
@@ -11,7 +12,7 @@ const Loader = ({ isLoading }) => (
       [classes.showLoader]: isLoading || false,
     })}
   >
-    <img src="/loader.svg" alt="Loading" />
+    <LinearProgress className={classes.loader} color="warning" />
   </div>
 );
 

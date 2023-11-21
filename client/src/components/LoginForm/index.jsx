@@ -1,26 +1,39 @@
 import PropTypes from 'prop-types';
 import { AlternateEmail, Key } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { loginUser } from '@containers/Client/actions';
 import FormInput from '@components/FormInput.jsx';
 
+import { selectLogin } from '@containers/Client/selectors';
+import { createStructuredSelector } from 'reselect';
+import { useNavigate } from 'react-router-dom';
+
 import classes from './style.module.scss';
 
-const LoginForm = ({ isRightPanelActive, intl: { formatMessage } }) => {
+const LoginForm = ({ isRightPanelActive, intl: { formatMessage }, login }) => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (login) {
+      navigate('/');
+    }
+  }, [login, navigate]);
 
   const onSubmit = (data) => {
     dispatch(loginUser(data));
   };
+
   return (
     <div className={`${classes.formContainer} ${!isRightPanelActive ? `${classes.show}` : ''}`}>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <h1 className={classes.formTitle}>
-          <FormattedMessage id="app_login" />
+          {login} <FormattedMessage id="app_login" />
         </h1>
         <div className={classes.formInputContainer}>
           <div>
@@ -64,6 +77,11 @@ const LoginForm = ({ isRightPanelActive, intl: { formatMessage } }) => {
 LoginForm.propTypes = {
   isRightPanelActive: PropTypes.bool,
   intl: PropTypes.object,
+  login: PropTypes.bool,
 };
 
-export default injectIntl(LoginForm);
+const mapStateToProps = createStructuredSelector({
+  login: selectLogin,
+});
+
+export default injectIntl(connect(mapStateToProps)(LoginForm));

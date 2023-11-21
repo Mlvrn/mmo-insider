@@ -32,7 +32,7 @@
     }
 
     .toolbar {
-      @include directionX;
+      @include flex-items-center;
       gap: 1rem;
       .authButton {
         display: none;
@@ -83,24 +83,67 @@
   background-color: rgba(0, 0, 0, 0.9) !important;
 }
 
-.dropdown {
-  &:hover {
-    background-color: black !important;
+.dropdownLang {
+  margin-top: 2rem;
+  &__item {
+    &:hover {
+      background-color: black !important;
+    }
+    .menu {
+      @include directionX;
+      align-items: center;
+
+      .menuAvatar {
+        width: 1rem;
+        height: 1rem;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        margin-right: 0.5rem;
+      }
+
+      .menuLang {
+        font-family: Quantico, Poppins, Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+      }
+    }
   }
-  .menu {
-    @include directionX;
-    align-items: center;
+}
 
-    .menuAvatar {
-      width: 1rem;
-      height: 1rem;
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-      margin-right: 0.5rem;
-    }
+.dropdownAvatar {
+  margin-top: 3rem;
+  position: relative;
+  &__item {
+    @include flex-items-center;
+    gap: 1rem;
+    padding: 0.5rem 1rem !important;
+  }
+  .logoutIcon {
+    width: 1rem !important;
+    color: $color-primary;
+  }
 
-    .menuLang {
-      font-family: Quantico, Poppins, Arial, Helvetica, sans-serif;
-      font-size: 0.8rem;
-    }
+  .logoutText {
+    font-family: Quantico, Poppins, Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    color: $color-primary;
+  }
+
+  .userData {
+    padding: 0.25rem 0.5rem;
+  }
+
+  .username {
+    font-size: 0.85rem;
+    @include truncate(8rem);
+  }
+
+  .email {
+    font-size: 0.7rem;
+    color: $color-text-secondary;
+    @include truncate(8rem);
+  }
+
+  .divider {
+    @include box(100%, 1px);
+    background-color: $color-text-secondary;
   }
 }

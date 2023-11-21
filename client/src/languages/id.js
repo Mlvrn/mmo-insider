@@ -32,4 +32,5 @@ export default {
   app_verification_success_title: 'Verifikasi Email Berhasil!',
   app_verification_success_description:
     'Email Anda telah berhasil diverifikasi. Anda sekarang siap untuk mulai menjelajahi.',
+  app_logout: 'Keluar',
 };

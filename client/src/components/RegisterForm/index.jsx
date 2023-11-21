@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import { AlternateEmail, Key, Person } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
-import { connect, useDispatch } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
@@ -11,19 +9,11 @@ import { registerUser } from '@containers/Client/actions';
 
 import FormInput from '@components/FormInput.jsx';
 
-import { selectErrorMessage } from '@containers/Client/selectors';
-
 import classes from './style.module.scss';
 
-const RegisterForm = ({ isRightPanelActive, handleOnClick, errorMessage, intl: { formatMessage } }) => {
+const RegisterForm = ({ isRightPanelActive, handleOnClick, intl: { formatMessage } }) => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (errorMessage) {
-      toast.error(errorMessage);
-    }
-  }, [errorMessage]);
 
   const onSubmit = (data) => {
     const handleSuccess = () => {
@@ -101,12 +91,7 @@ const RegisterForm = ({ isRightPanelActive, handleOnClick, errorMessage, intl: {
 RegisterForm.propTypes = {
   isRightPanelActive: PropTypes.bool,
   handleOnClick: PropTypes.func,
-  errorMessage: PropTypes.string,
   intl: PropTypes.object,
 };
 
-const mapStateToProps = createStructuredSelector({
-  errorMessage: selectErrorMessage,
-});
-
-export default injectIntl(connect(mapStateToProps)(RegisterForm));
+export default injectIntl(RegisterForm);

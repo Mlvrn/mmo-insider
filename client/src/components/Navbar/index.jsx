@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -12,11 +12,17 @@ import { Swords } from 'lucide-react';
 import { setLocale } from '@containers/App/actions';
 
 import classes from './style.module.scss';
+import { Logout } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
+import { createStructuredSelector } from 'reselect';
+import { selectUser } from '@containers/Client/selectors';
+import { logoutUser } from '@containers/Client/actions';
 
-const Navbar = ({ title, locale }) => {
+const Navbar = ({ title, locale, user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(menuPosition);
   const [color, setColor] = useState(false);
 
@@ -38,6 +44,14 @@ const Navbar = ({ title, locale }) => {
     setMenuPosition(null);
   };
 
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleAvatarClose = () => {
+    setAnchorEl(null);
+  };
+
   const onSelectLang = (lang) => {
     if (lang !== locale) {
       dispatch(setLocale(lang));
@@ -53,6 +67,11 @@ const Navbar = ({ title, locale }) => {
     navigate('/auth');
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigateAuth();
+  };
+
   return (
     <div
       className={color ? `${classes.headerWrapper} ${classes.headerWrapperBg}` : ` ${classes.headerWrapper} `}
@@ -64,17 +83,67 @@ const Navbar = ({ title, locale }) => {
           <div className={classes.title}>{title}</div>
         </div>
         <div className={classes.toolbar}>
-          <div className={classes.authButton} onClick={navigateAuth}>
-            <FormattedMessage id="app_join_us" />
-          </div>
+          {!user && (
+            <div className={classes.authButton} onClick={navigateAuth}>
+              <FormattedMessage id="app_join_us" />
+            </div>
+          )}
           <div className={classes.toggle} onClick={handleClick}>
             <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
             <div className={classes.lang}>{locale}</div>
             <ExpandMoreIcon />
           </div>
+          {user && (
+            <IconButton onClick={handleAvatarClick}>
+              <Avatar className={classes.avatar} src="https://source.unsplash.com/500x500/?avatar" />
+            </IconButton>
+          )}
+          <Menu
+            className={classes.dropdownAvatar}
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleAvatarClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <div className={classes.userData}>
+              <div className={classes.username}>{user?.username}</div>
+              <div className={classes.email}>{user?.email}</div>
+            </div>
+            <div className={classes.divider} />
+            <MenuItem onClick={handleLogout} className={classes.dropdownAvatar__item}>
+              <Logout className={classes.logoutIcon} />
+              <div className={classes.logoutText}>
+                <FormattedMessage id="app_logout" />
+              </div>
+            </MenuItem>
+          </Menu>
         </div>
-        <Menu open={open} anchorEl={menuPosition} onClose={handleClose}>
-          <MenuItem onClick={() => onSelectLang('id')} selected={locale === 'id'} className={classes.dropdown}>
+        <Menu
+          open={open}
+          anchorEl={menuPosition}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          className={classes.dropdownLang}
+        >
+          <MenuItem
+            onClick={() => onSelectLang('id')}
+            selected={locale === 'id'}
+            className={classes.dropdownLang__item}
+          >
             <div className={classes.menu}>
               <Avatar className={classes.menuAvatar} src="/id.png" />
               <div className={classes.menuLang}>
@@ -82,7 +151,11 @@ const Navbar = ({ title, locale }) => {
               </div>
             </div>
           </MenuItem>
-          <MenuItem onClick={() => onSelectLang('en')} selected={locale === 'en'} className={classes.dropdown}>
+          <MenuItem
+            onClick={() => onSelectLang('en')}
+            selected={locale === 'en'}
+            className={classes.dropdownLang__item}
+          >
             <div className={classes.menu}>
               <Avatar className={classes.menuAvatar} src="/en.png" />
               <div className={classes.menuLang}>
@@ -99,6 +172,11 @@ const Navbar = ({ title, locale }) => {
 Navbar.propTypes = {
   title: PropTypes.string,
   locale: PropTypes.string.isRequired,
+  user: PropTypes.object,
 };
 
-export default Navbar;
+const mapStateToProps = createStructuredSelector({
+  user: selectUser,
+});
+
+export default connect(mapStateToProps)(Navbar);

@@ -1,11 +1,11 @@
 import {
-  LOGIN_FAILURE,
   LOGIN_USER,
+  LOGOUT_USER,
   REGISTER_USER,
-  REGISTRATION_FAILURE,
   REGISTRATION_SUCCESS,
   SET_LOGIN,
   SET_TOKEN,
+  SET_USER,
 } from '@containers/Client/constants';
 
 export const setLogin = (login) => ({
@@ -18,14 +18,14 @@ export const setToken = (token) => ({
   token,
 });
 
+export const setUser = (user) => ({
+  type: SET_USER,
+  user,
+});
+
 export const loginUser = (data) => ({
   type: LOGIN_USER,
   data,
-});
-
-export const loginFailure = (error) => ({
-  type: LOGIN_FAILURE,
-  error,
 });
 
 export const registerUser = (data, handleSuccess) => ({
@@ -39,7 +39,6 @@ export const registrationSuccess = (data) => ({
   data,
 });
 
-export const registrationFailure = (error) => ({
-  type: REGISTRATION_FAILURE,
-  error,
+export const logoutUser = () => ({
+  type: LOGOUT_USER,
 });

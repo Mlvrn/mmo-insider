@@ -2,7 +2,7 @@
 
 .layout {
   @include flex-center;
-  background-color: var(--color-bg-secondary);
+  background-color: $color-bg-auth;
   color: $color-dark-blue;
   height: 100vh;
   box-sizing: border-box;
@@ -21,6 +21,7 @@
       top: 1rem;
       right: 1rem;
       bottom: auto;
+      z-index: 100;
     }
 
     .avatar {

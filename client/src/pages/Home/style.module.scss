@@ -70,23 +70,23 @@
       }
     }
   }
+}
 
-  .sectionContainer {
-    max-width: 50rem;
-    margin: 0 auto;
+.sectionContainer {
+  max-width: 50rem;
+  margin: 0 auto;
+  @include flex-column;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  .sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .sectionSubtitle {
+    font-size: 0.75rem;
+  }
+  .postContainer {
     @include flex-column;
-    gap: 2rem;
-    padding: 1rem 2rem;
-    .sectionTitle {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-    .sectionSubtitle {
-      font-size: 0.75rem;
-    }
-    .postContainer {
-      @include flex-column;
-      gap: 1rem;
-    }
+    gap: 1rem;
   }
 }

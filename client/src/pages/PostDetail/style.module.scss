@@ -1,5 +1,10 @@
 @import '@styles/base';
 
+.loading {
+  @include flex-center;
+  height: 100vh;
+}
+
 .container {
   @include flex-column;
   gap: 1.5rem;
