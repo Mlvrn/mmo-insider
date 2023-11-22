@@ -1,7 +1,7 @@
 import { setLoading } from '@containers/App/actions';
 import { registrationSuccess, setLogin, setToken } from '@containers/Client/actions';
-import { LOGIN_USER, REGISTER_USER } from '@containers/Client/constants';
-import { loginApi, registerApi } from '@domain/api';
+import { FORGOT_PASSWORD, LOGIN_USER, REGISTER_USER } from '@containers/Client/constants';
+import { forgotPasswordApi, loginApi, registerApi } from '@domain/api';
 import toast from 'react-hot-toast';
 
 import { call, put, takeLatest } from 'redux-saga/effects';
@@ -37,7 +37,21 @@ function* doLogin({ data }) {
   }
 }
 
+function* doForgotPassword(action) {
+  yield put(setLoading(true));
+  try {
+    const response = yield call(forgotPasswordApi, action.payload);
+    toast.success(response.message);
+  } catch (error) {
+    console.log(error);
+    toast.error(error.response.data.message);
+  } finally {
+    yield put(setLoading(false));
+  }
+}
+
 export default function* authSaga() {
   yield takeLatest(REGISTER_USER, doRegister);
   yield takeLatest(LOGIN_USER, doLogin);
+  yield takeLatest(FORGOT_PASSWORD, doForgotPassword);
 }

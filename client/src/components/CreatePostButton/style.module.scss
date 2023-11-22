@@ -1,0 +1,19 @@
+@import '@styles/base';
+
+.button {
+  display: none;
+  color: $color-white;
+  gap: 0.35rem;
+  cursor: pointer;
+  position: relative;
+  background: linear-gradient(to bottom, $color-secondary, $color-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  font-size: 0.75rem;
+  width: fit-content;
+  @include hover-shine;
+  @include apply-at-md-size {
+    @include flex-center;
+  }
+}

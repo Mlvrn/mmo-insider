@@ -116,18 +116,25 @@
   margin-top: 3rem;
   position: relative;
   &__item {
-    @include flex-items-center;
-    gap: 1rem;
+    display: flex;
+    gap: 0.5rem;
     padding: 0.5rem 1rem !important;
   }
-  .logoutIcon {
+
+  .dropdownIcon {
     width: 1rem !important;
+  }
+
+  .logoutIcon {
     color: $color-primary;
   }
 
-  .logoutText {
+  .dropdownText {
     font-family: Quantico, Poppins, Arial, Helvetica, sans-serif;
     font-size: 0.8rem;
+  }
+
+  .logoutText {
     color: $color-primary;
   }
 
@@ -149,6 +156,7 @@
   .divider {
     @include box(100%, 1px);
     background-color: $color-text-secondary;
+    margin-top: 0.25rem;
   }
 }
 

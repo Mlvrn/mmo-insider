@@ -1,8 +1,10 @@
-import { getPostByIdApi } from '@domain/api';
+import { deletePostByIdApi, getPostByIdApi } from '@domain/api';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import toast from 'react-hot-toast';
+
 import { setLoading } from '@containers/App/actions';
-import { setPostById } from './action';
-import { GET_POST_BY_ID } from './constants';
+import { deletePostSuccess, setPostById } from './action';
+import { DELETE_POST, GET_POST_BY_ID } from './constants';
 
 export function* doGetPostById(action) {
   yield put(setLoading(true));
@@ -16,6 +18,16 @@ export function* doGetPostById(action) {
   }
 }
 
+function* doDeletePost(action) {
+  try {
+    yield call(deletePostByIdApi, action.payload.postId, action.payload.token);
+    yield put(deletePostSuccess(action.payload.postId));
+  } catch (error) {
+    toast.error(error.response.data.message);
+  }
+}
+
 export default function* postDetailSaga() {
   yield takeLatest(GET_POST_BY_ID, doGetPostById);
+  yield takeLatest(DELETE_POST, doDeletePost);
 }

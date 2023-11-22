@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
-import { loginUser } from '@containers/Client/actions';
+import { forgotPasswordRequest, loginUser } from '@containers/Client/actions';
 import FormInput from '@components/FormInput.jsx';
 
 import { selectLogin } from '@containers/Client/selectors';
@@ -13,11 +13,13 @@ import { createStructuredSelector } from 'reselect';
 import { useNavigate } from 'react-router-dom';
 
 import classes from './style.module.scss';
+import toast from 'react-hot-toast';
 
 const LoginForm = ({ isRightPanelActive, intl: { formatMessage }, login }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const email = watch('email');
 
   useEffect(() => {
     if (login) {
@@ -27,6 +29,15 @@ const LoginForm = ({ isRightPanelActive, intl: { formatMessage }, login }) => {
 
   const onSubmit = (data) => {
     dispatch(loginUser(data));
+  };
+
+  const handleForgotPassword = () => {
+    console.log(email);
+    if (email) {
+      dispatch(forgotPasswordRequest(email));
+    } else {
+      toast.error('Forgot password? More like forgot email');
+    }
   };
 
   return (
@@ -65,9 +76,9 @@ const LoginForm = ({ isRightPanelActive, intl: { formatMessage }, login }) => {
           <button className={classes.formButton} type="submit">
             <FormattedMessage id="app_login" />
           </button>
-          <a href="#" className={classes.forgot}>
+          <button type="button" className={classes.forgot} onClick={handleForgotPassword}>
             <FormattedMessage id="app_forgot_password" />
-          </a>
+          </button>
         </div>
       </form>
     </div>

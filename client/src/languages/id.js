@@ -33,4 +33,11 @@ export default {
   app_verification_success_description:
     'Email Anda telah berhasil diverifikasi. Anda sekarang siap untuk mulai menjelajahi.',
   app_logout: 'Keluar',
+  app_back: 'Kembali',
+  app_new_post: 'Buat Post',
+  app_edit: 'Edit',
+  app_delete: 'Hapus',
+  app_posted_by: 'Dipost oleh',
+  app_home_title: 'Yang terbaru dari MMO Insider',
+  app_home_subtitle: 'Tetap terinformasi dengan artikel-artikel informatif kami',
 };

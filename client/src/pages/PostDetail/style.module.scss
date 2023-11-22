@@ -12,6 +12,39 @@
   margin: 0 auto;
   margin-top: 5rem;
   padding: 0 2rem;
+  .containerHeader {
+    @include flex-items-center;
+    justify-content: space-between;
+
+    .actions {
+      @include flex-items-center;
+      gap: 1rem;
+      .button {
+        cursor: pointer;
+        @include flex-items-center;
+        gap: 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        .icon {
+          @include box(0.75rem);
+        }
+      }
+      .buttonEdit {
+        border-color: $color-secondary;
+        &:hover {
+          background-color: $color-secondary;
+        }
+      }
+      .buttonDelete {
+        border-color: $color-primary;
+        &:hover {
+          background-color: $color-primary;
+        }
+      }
+    }
+  }
   .postTitle {
     font-size: 2rem;
   }

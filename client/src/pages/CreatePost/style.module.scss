@@ -1,0 +1,101 @@
+@import '@styles/base';
+
+.container {
+  margin: 0 auto;
+  margin-top: 6rem;
+  @include flex-column;
+  max-width: 40rem;
+  padding: 0 2rem;
+  gap: 1rem;
+  .form {
+    @include flex-column;
+    gap: 1rem;
+    .formItem {
+      @include flex-column;
+      gap: 0.5rem;
+      .formLabel {
+        font-weight: 700;
+      }
+      .formInput {
+        box-sizing: border-box;
+        border: 1px solid $color-white;
+        background-color: $color-bg;
+        color: $color-text-primary;
+        padding: 0.5rem;
+        font-family: 'Quantico', 'sans-serif';
+        width: 100%;
+      }
+      .title {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+
+      .quill {
+        width: 100%;
+        height: 10rem;
+        margin-bottom: 3rem;
+
+        * {
+          font-family: 'Quantico', 'sans-serif' !important;
+        }
+      }
+    }
+  }
+}
+
+.drop-container {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px dashed #555;
+  color: #444;
+  cursor: pointer;
+  transition:
+    background 0.2s ease-in-out,
+    border 0.2s ease-in-out;
+
+  &:hover {
+    background: $color-bg-auth;
+    border-color: $color-bg;
+  }
+
+  &:hover .drop-title {
+    color: $color-bg;
+  }
+  .drop-title {
+    color: $color-text-secondary;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    transition: color 0.2s ease-in-out;
+  }
+}
+
+.error {
+  font-size: 0.6rem;
+  color: $color-primary;
+  margin: 0;
+}
+
+.createButton {
+  color: $color-white;
+  font-family: 'Quantico', 'sans-serif';
+  @include flex-center;
+  gap: 0.35rem;
+  cursor: pointer;
+  position: relative;
+  background: linear-gradient(to bottom, $color-secondary, $color-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  @include hover-shine;
+  margin: 2rem 0;
+}

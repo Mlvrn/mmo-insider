@@ -67,6 +67,12 @@
       .forgot {
         font-size: 0.6rem;
         font-style: italic;
+        background: none;
+        color: blue;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: underline;
       }
     }
   }

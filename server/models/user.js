@@ -1,6 +1,5 @@
 'use strict';
 const { Model } = require('sequelize');
-const { hashPassword } = require('../utils/bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -17,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: { name: 'userId' },
       });
       User.belongsToMany(models.Post, {
-        as: 'likedPost',
+        as: 'vote',
         foreignKey: 'userId',
-        through: models.LikedPost,
+        through: models.Vote,
       });
     }
   }
@@ -56,16 +55,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      hooks: {
-        beforeCreate: (user) => {
-          user.password = hashPassword(user.password);
-        },
-        beforeUpdate: (user) => {
-          if (user.changed) {
-            user.password = hashPassword(user.password);
-          }
-        },
-      },
       sequelize,
       modelName: 'User',
     }

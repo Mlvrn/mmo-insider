@@ -28,6 +28,23 @@ const sendVerificationEmail = async (to, verificationLink) => {
   }
 };
 
+const sendPasswordResetEmail = async (to, temporaryPassword) => {
+  const mailOptions = {
+    from: process.env.EMAIL_ADDRESS,
+    to,
+    subject: 'Password Reset',
+    text: `Your temporary password is: ${temporaryPassword}\nPlease change your password after logging in.`,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Password reset email sent:', info.response);
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+  }
+};
+
 module.exports = {
   sendVerificationEmail,
+  sendPasswordResetEmail,
 };

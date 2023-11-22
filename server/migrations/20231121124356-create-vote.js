@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('LikedPosts', {
+    await queryInterface.createTable('Votes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,6 +13,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       postId: {
+        type: Sequelize.INTEGER
+      },
+      value: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -26,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('LikedPosts');
+    await queryInterface.dropTable('Votes');
   }
 };

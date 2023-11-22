@@ -1,11 +1,11 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { getPostsApi, getUserByIdApi } from '@domain/api';
+import { getPostsApi, getUserByIdApi, votePostApi } from '@domain/api';
 import { setLoading } from '@containers/App/actions';
 import toast from 'react-hot-toast';
 import { setUser } from '@containers/Client/actions';
 import { SET_TOKEN } from '@containers/Client/constants';
-import { setAllPosts } from './actions';
-import { GET_ALL_POSTS } from './constants';
+import { setAllPosts, updatePost } from './actions';
+import { DOWNVOTE_POST, GET_ALL_POSTS, UPVOTE_POST } from './constants';
 
 export function* doGetAllPosts() {
   yield put(setLoading(true));
@@ -20,16 +20,34 @@ export function* doGetAllPosts() {
 }
 
 export function* doGetUserById(action) {
+  yield put(setLoading(true));
   try {
     const response = yield call(getUserByIdApi, action.token);
 
     yield put(setUser(response));
   } catch (error) {
     toast.error('Unexpected error occured');
+  } finally {
+    yield put(setLoading(false));
+  }
+}
+
+function* doVotePost(action) {
+  yield put(setLoading(true));
+  try {
+    const { postId, token, voteValue } = action.payload;
+    const response = yield call(votePostApi, postId, voteValue, token);
+    yield put(updatePost(response.updatedPost));
+  } catch (error) {
+    toast.error('Error voting post');
+  } finally {
+    yield put(setLoading(false));
   }
 }
 
 export default function* homeSaga() {
   yield takeLatest(GET_ALL_POSTS, doGetAllPosts);
   yield takeLatest(SET_TOKEN, doGetUserById);
+  yield takeLatest(UPVOTE_POST, doVotePost);
+  yield takeLatest(DOWNVOTE_POST, doVotePost);
 }

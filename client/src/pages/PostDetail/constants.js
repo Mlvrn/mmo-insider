@@ -1,2 +1,5 @@
 export const GET_POST_BY_ID = 'GET_POST_BY_ID';
 export const SET_POST_BY_ID = 'SET_POST_BY_ID';
+export const DELETE_POST = 'DELETE_POST';
+export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+export const RESET_DELETE_SUCCESS = 'RESET_DELETE_SUCCESS';

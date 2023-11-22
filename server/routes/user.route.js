@@ -5,6 +5,7 @@ const {
   verifyEmail,
   getUsers,
   getUserById,
+  forgotPassword,
 } = require('../controllers/user.controller');
 const { authenticate } = require('../middlewares/authentication');
 const { authorizeAdmin } = require('../middlewares/authorization');
@@ -14,6 +15,7 @@ router.post('/register', register);
 router.post('/login', login);
 
 router.get('/verify-email', verifyEmail);
+router.post('/forgot-password', forgotPassword);
 
 router.use(authenticate);
 router.get('/all', authorizeAdmin, getUsers);

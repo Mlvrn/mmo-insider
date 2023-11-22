@@ -33,4 +33,11 @@ export default {
   app_verification_success_description:
     "Your email address has been successfully verified. You're all set to start exploring.",
   app_logout: 'Logout',
+  app_back: 'Back',
+  app_new_post: 'New Post',
+  app_edit: 'Edit',
+  app_delete: 'Delete',
+  app_posted_by: 'Posted by',
+  app_home_title: 'The Latest from MMO Insider',
+  app_home_subtitle: 'Stay informed with our informative articles.',
 };

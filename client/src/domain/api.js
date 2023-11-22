@@ -33,8 +33,21 @@ export const ping = () => callAPI(endpoints.ping, 'get');
 
 export const registerApi = (data) => callAPI(`${endpoints.user}/register`, 'POST', {}, {}, data);
 export const loginApi = (data) => callAPI(`${endpoints.user}/login`, 'POST', {}, {}, data);
+export const forgotPasswordApi = (data) => callAPI(`${endpoints.user}/forgot-password`, 'POST', {}, {}, data);
 
 export const getPostsApi = () => callAPI(`${endpoints.post}/all`, 'GET');
 export const getPostByIdApi = (postId) => callAPI(`${endpoints.post}/${postId}`, 'GET');
 export const getUsersApi = () => callAPI(`${endpoints.user}/all`, 'GET');
 export const getUserByIdApi = (token) => callAPI(`${endpoints.user}`, 'GET', { Authorization: `Bearer ${token}` });
+
+export const createPostApi = (data, token) =>
+  callAPI(`${endpoints.post}/create`, 'POST', { Authorization: `Bearer ${token}` }, {}, data);
+
+export const votePostApi = (postId, data, token) =>
+  callAPI(`${endpoints.post}/vote/${postId}`, 'POST', { Authorization: `Bearer ${token}` }, {}, data);
+
+export const deletePostByIdApi = (postId, token) =>
+  callAPI(`${endpoints.post}/delete/${postId}`, 'DELETE', { Authorization: `Bearer ${token}` });
+
+export const editPostById = (postId, data, token) =>
+  callAPI(`${endpoints.post}/edit/${postId}`, 'PUT', { Authorization: `Bearer ${token}` }, {}, data);

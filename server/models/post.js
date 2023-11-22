@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: { name: 'postId' },
       });
       Post.belongsToMany(models.User, {
-        as: 'likedUsers',
+        as: 'vote',
         foreignKey: 'postId',
-        through: models.LikedPost,
+        through: models.Vote,
       });
     }
   }
@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       content: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      voteCount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
     },
     {

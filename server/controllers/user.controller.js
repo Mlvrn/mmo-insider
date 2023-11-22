@@ -8,13 +8,16 @@ const {
 } = require('../validators/user.validator');
 const { User } = require('../models');
 const { Op } = require('sequelize');
-const { comparePassword } = require('../utils/bcrypt');
+const { comparePassword, hashPassword } = require('../utils/bcrypt');
 const {
   generateToken,
   generateVerificationToken,
   verifyToken,
 } = require('../utils/jwt');
-const { sendVerificationEmail } = require('../utils/nodemailer');
+const {
+  sendVerificationEmail,
+  sendPasswordResetEmail,
+} = require('../utils/nodemailer');
 
 exports.register = async (req, res) => {
   try {
@@ -37,9 +40,11 @@ exports.register = async (req, res) => {
       });
     }
 
+    const hashedPassword = hashPassword(password);
+
     const newUser = await User.create({
       username,
-      password,
+      password: hashedPassword,
       email,
       role: 2,
       isEmailVerified: false,
@@ -142,6 +147,32 @@ exports.getUserById = async (req, res) => {
     const { email, username, role } = user;
 
     return handleResponse(res, 200, { email, username, role });
+  } catch (error) {
+    console.log(error);
+    return handleServerError(res);
+  }
+};
+
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return handleResponse(res, 404, { message: 'Email not registered.' });
+    }
+
+    const temporaryPassword = 'supersecretpass123';
+
+    const hashedPassword = hashPassword(temporaryPassword);
+    await user.update({ password: hashedPassword });
+
+    await sendPasswordResetEmail(email, temporaryPassword);
+
+    return handleResponse(res, 200, {
+      message: 'Temporary password sent via email',
+    });
   } catch (error) {
     console.log(error);
     return handleServerError(res);

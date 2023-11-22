@@ -1,6 +1,7 @@
 import AuthLayout from '@layouts/AuthLayout';
 import MainLayout from '@layouts/MainLayout';
 import AuthPage from '@pages/Auth';
+import CreatePost from '@pages/CreatePost';
 
 import Home from '@pages/Home';
 
@@ -37,7 +38,13 @@ const routes = [
     component: PostDetail,
     layout: MainLayout,
   },
-
+  {
+    path: '/post/create',
+    name: 'CreatePost',
+    protected: true,
+    component: CreatePost,
+    layout: MainLayout,
+  },
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
 ];
 

@@ -1,49 +1,81 @@
 @import '@styles/base';
 
-.post {
-  cursor: pointer;
-  @include flex-column;
-  @include apply-at-md-size {
-    @include flex-items-center;
-    flex-direction: row;
-    padding: 0.5rem 0;
-  }
-
+.postContainer {
+  @include flex-items-center;
   gap: 1rem;
-  padding: 1rem 0;
-  border: 1px solid transparent;
-  &:hover {
-    color: $color-primary;
-
-    border-top: 1px solid $color-primary;
-    border-bottom: 1px solid $color-primary;
-  }
-
-  &:hover .postImage {
-    box-shadow: 0 0 10px 1px $color-secondary;
-  }
-  .postImage {
-    border-radius: 0.5rem;
-    border: 1px solid transparent;
-    max-width: 100%;
-    @include box(auto);
-    @include apply-at-md-size {
-      max-width: 15rem;
-    }
-  }
-  .postContent {
+  .votes {
     @include flex-column;
-    gap: 0.5rem;
-    .postTitle {
-      font-weight: 700;
-      font-size: 1.1rem;
+    align-items: center;
+    gap: 1rem;
+    .voteButtonActive {
+      color: $color-primary;
     }
-    .postDescription {
-      font-size: 0.8rem;
+    .voteButton {
+      cursor: pointer;
+      @include box(2.25rem);
+      @include apply-at-md-size {
+        @include box(1.5rem);
+      }
+      &:hover {
+        color: $color-primary;
+      }
     }
-    .postAuthor {
-      font-size: 0.6rem;
-      color: $color-text-secondary;
+    .voteCount {
+      font-size: 1.125rem;
+      @include apply-at-md-size {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .post {
+    cursor: pointer;
+    @include flex-column;
+    width: 100%;
+    @include apply-at-md-size {
+      @include flex-items-center;
+      flex-direction: row;
+      padding: 0.5rem 0;
+    }
+
+    gap: 1rem;
+    padding: 1rem 0;
+    border: 1px solid transparent;
+    &:hover {
+      color: $color-primary;
+
+      border-top: 1px solid $color-primary;
+      border-bottom: 1px solid $color-primary;
+    }
+
+    &:hover .postImage {
+      box-shadow: 0 0 10px 1px $color-secondary;
+    }
+
+    .postImage {
+      border-radius: 0.5rem;
+      border: 1px solid transparent;
+      max-width: 100%;
+      @include box(auto);
+      @include apply-at-md-size {
+        max-width: 15rem;
+        max-height: 9rem;
+      }
+    }
+    .postContent {
+      @include flex-column;
+      gap: 0.5rem;
+      .postTitle {
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      .postDescription {
+        font-size: 0.8rem;
+      }
+      .postAuthor {
+        font-size: 0.6rem;
+        color: $color-text-secondary;
+      }
     }
   }
 }

@@ -6,6 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { ArrowRight } from 'lucide-react';
 import PostCard from '@components/PostCard';
+import CreatePostButton from '@components/CreatePostButton';
 import { selectUser } from '@containers/Client/selectors';
 import { getAllPosts } from './actions';
 
@@ -18,7 +19,6 @@ const Home = ({ posts, user }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(setToken(token));
     dispatch(getAllPosts());
   }, [dispatch]);
 
@@ -51,9 +51,15 @@ const Home = ({ posts, user }) => {
       )}
 
       <div className={classes.sectionContainer}>
-        <div>
-          <div className={classes.sectionTitle}>The Latest from MMO Insider</div>
-          <div className={classes.sectionSubtitle}>Stay informed with our informative articles.</div>
+        <div className={classes.sectionHeader}>
+          <div>
+            <div className={classes.sectionTitle}>
+              <FormattedMessage id="app_home_title" />
+            </div>
+            <div className={classes.sectionSubtitle}>
+              <FormattedMessage id="app_home_subtitle" />
+            </div>
+          </div>
         </div>
         <div className={classes.postContainer}>
           {posts.map((post) => (

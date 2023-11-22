@@ -7,11 +7,12 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Swords } from 'lucide-react';
+import { LogOut, Plus, Swords } from 'lucide-react';
+
+import CreatePostButton from '@components/CreatePostButton';
 
 import { setLocale } from '@containers/App/actions';
 
-import { Logout } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { createStructuredSelector } from 'reselect';
 import { selectUser } from '@containers/Client/selectors';
@@ -73,6 +74,10 @@ const Navbar = ({ title, locale, user }) => {
     navigateAuth();
   };
 
+  const navigateCreate = () => {
+    navigate('/post/create');
+  };
+
   return (
     <div
       className={color ? `${classes.headerWrapper} ${classes.headerWrapperBg}` : ` ${classes.headerWrapper} `}
@@ -84,6 +89,7 @@ const Navbar = ({ title, locale, user }) => {
           <div className={classes.title}>{title}</div>
         </div>
         <div className={classes.toolbar}>
+          {user && <CreatePostButton />}
           {!user && (
             <div className={classes.authButton} onClick={navigateAuth}>
               <FormattedMessage id="app_join_us" />
@@ -118,9 +124,15 @@ const Navbar = ({ title, locale, user }) => {
               <div className={classes.email}>{user?.email}</div>
             </div>
             <div className={classes.divider} />
+            <MenuItem onClick={navigateCreate} className={classes.dropdownAvatar__item}>
+              <Plus className={classes.dropdownIcon} />
+              <div className={classes.dropdownText}>
+                <FormattedMessage id="app_new_post" />
+              </div>
+            </MenuItem>
             <MenuItem onClick={handleLogout} className={classes.dropdownAvatar__item}>
-              <Logout className={classes.logoutIcon} />
-              <div className={classes.logoutText}>
+              <LogOut className={`${classes.dropdownIcon} ${classes.logoutIcon}`} />
+              <div className={`${classes.dropdownText} ${classes.logoutText}`}>
                 <FormattedMessage id="app_logout" />
               </div>
             </MenuItem>

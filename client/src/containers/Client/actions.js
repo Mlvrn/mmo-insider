@@ -1,4 +1,5 @@
 import {
+  FORGOT_PASSWORD,
   LOGIN_USER,
   LOGOUT_USER,
   REGISTER_USER,
@@ -41,4 +42,9 @@ export const registrationSuccess = (data) => ({
 
 export const logoutUser = () => ({
   type: LOGOUT_USER,
+});
+
+export const forgotPasswordRequest = (email) => ({
+  type: FORGOT_PASSWORD,
+  payload: { email },
 });

@@ -17,7 +17,7 @@ const RegisterForm = ({ isRightPanelActive, handleOnClick, intl: { formatMessage
 
   const onSubmit = (data) => {
     const handleSuccess = () => {
-      toast.success('Registration successful! Please check your email for a verification link');
+      toast.success('Registration successful! Please check your email for a verification link', { duration: 5000 });
       handleOnClick('login');
     };
     dispatch(registerUser(data, handleSuccess));
