@@ -1,24 +1,32 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useParams } from 'react-router-dom';
 
 import BackButton from '@components/BackButton';
 
+import { getPostById } from '@pages/PostDetail/action';
 import { selectToken } from '@containers/Client/selectors';
-import { createPost } from './action';
+import { selectPost } from '@pages/PostDetail/selectors';
 
 import classes from './style.module.scss';
+import { updatePostById } from './action';
 
-const CreatePost = ({ token }) => {
+const EditPost = ({ post, token }) => {
+  const { postId } = useParams();
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
-  const [shortDescription, setShortDescription] = useState('');
-  const [mainImage, setMainImage] = useState(null);
+  const [title, setTitle] = useState(post?.title);
+  const [shortDescription, setShortDescription] = useState(post?.shortDescription);
+  const [mainImage, setMainImage] = useState(post?.mainImage);
   const [selectedFileName, setSelectedFileName] = useState('');
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(post?.content);
+
+  useEffect(() => {
+    dispatch(getPostById(postId));
+  }, [dispatch, postId]);
 
   const handleFiles = (files) => {
     if (files.length > 0) {
@@ -47,7 +55,8 @@ const CreatePost = ({ token }) => {
     if (mainImage) {
       formData.append('mainImage', mainImage);
     }
-    dispatch(createPost(formData, token));
+
+    dispatch(updatePostById(postId, formData, token));
   };
 
   return (
@@ -101,25 +110,27 @@ const CreatePost = ({ token }) => {
             theme="snow"
             value={content}
             onChange={setContent}
-            placeholder="Compose an epic..."
+            placeholder="Some text"
           />
         </div>
 
         {/* Submit Button */}
         <button type="submit" className={classes.createButton}>
-          Create Post
+          Edit Post
         </button>
       </form>
     </div>
   );
 };
 
-CreatePost.propTypes = {
+EditPost.propTypes = {
+  post: PropTypes.object,
   token: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   token: selectToken,
+  post: selectPost,
 });
 
-export default connect(mapStateToProps)(CreatePost);
+export default connect(mapStateToProps)(EditPost);

@@ -82,12 +82,18 @@ exports.editPostById = async (req, res) => {
     const postData = req.body;
     const userId = req.user.id;
 
-    // Check if the post with the given ID and author exists
+    const { error, value } = createPostValidator.validate(postData);
+    if (error) {
+      return handleResponse(res, 400, { message: error.details[0].message });
+    }
+
+    const { title, shortDescription, content } = value;
+
     const [updatedRowCount] = await Post.update(
       {
-        title: postData.title,
-        shortDescription: postData.shortDescription,
-        content: postData.content,
+        title,
+        shortDescription,
+        content,
         mainImage: req.file
           ? `/uploads/${req.file.filename}`
           : Sequelize.literal('mainImage'),

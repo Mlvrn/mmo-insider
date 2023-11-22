@@ -2,6 +2,7 @@ import AuthLayout from '@layouts/AuthLayout';
 import MainLayout from '@layouts/MainLayout';
 import AuthPage from '@pages/Auth';
 import CreatePost from '@pages/CreatePost';
+import EditPost from '@pages/EditPost';
 
 import Home from '@pages/Home';
 
@@ -43,6 +44,13 @@ const routes = [
     name: 'CreatePost',
     protected: true,
     component: CreatePost,
+    layout: MainLayout,
+  },
+  {
+    path: '/post/edit/:postId',
+    name: 'EditPost',
+    protected: true,
+    component: EditPost,
     layout: MainLayout,
   },
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },

@@ -31,8 +31,11 @@ const PostDetail = ({ post, loading, user, token, deleteSuccess }) => {
 
   const handleDeleteConfirm = () => {
     setShowDeleteModal(false);
-    dispatch(deletePostById(post.id, token));
-    navigate('/');
+    dispatch(deletePostById(post?.id, token));
+  };
+
+  const navigateEdit = () => {
+    navigate(`/post/edit/${post?.id}`);
   };
 
   useEffect(() => {
@@ -54,48 +57,47 @@ const PostDetail = ({ post, loading, user, token, deleteSuccess }) => {
       </div>
     );
   }
-  if (post) {
-    const isAuthor = user?.username === post?.author?.username;
-    return (
-      <div className={classes.container}>
-        <div className={classes.containerHeader}>
-          <BackButton />
-          {isAuthor && (
-            <div className={classes.actions}>
-              <div className={`${classes.button} ${classes.buttonEdit}`}>
-                <Pencil className={classes.icon} /> <FormattedMessage id="app_edit" />
-              </div>
-              <div className={`${classes.button} ${classes.buttonDelete}`} onClick={handleDeleteClick}>
-                <Trash2 className={classes.icon} /> <FormattedMessage id="app_delete" />
-              </div>
+
+  const isAuthor = user?.username === post?.author?.username;
+  return (
+    <div className={classes.container}>
+      <div className={classes.containerHeader}>
+        <BackButton />
+        {isAuthor && (
+          <div className={classes.actions}>
+            <div className={`${classes.button} ${classes.buttonEdit}`} onClick={navigateEdit}>
+              <Pencil className={classes.icon} /> <FormattedMessage id="app_edit" />
             </div>
-          )}
-          <ConfirmDeleteModal
-            isOpen={showDeleteModal}
-            onClose={() => setShowDeleteModal(false)}
-            onConfirm={handleDeleteConfirm}
-          />
-        </div>
-        <div className={classes.postTitle}>{post?.title}</div>
-        <div className={classes.postDescription}>{post?.shortDescription}</div>
-        <div>
-          <div className={classes.postAuthor}>
-            <FormattedMessage id="app_posted_by" /> {post?.author?.username} • {formatRelativeTime(post?.createdAt)}
+            <div className={`${classes.button} ${classes.buttonDelete}`} onClick={handleDeleteClick}>
+              <Trash2 className={classes.icon} /> <FormattedMessage id="app_delete" />
+            </div>
           </div>
-          <img
-            src={
-              post?.mainImage?.startsWith('https://')
-                ? post?.mainImage
-                : `${import.meta.env.VITE_API_BASE_URL}${post?.mainImage}`
-            }
-            alt={post?.title}
-            className={classes.postImage}
-          />
-          <div className={classes.postContent} dangerouslySetInnerHTML={{ __html: post?.content }} />
-        </div>
+        )}
+        <ConfirmDeleteModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeleteConfirm}
+        />
       </div>
-    );
-  }
+      <div className={classes.postTitle}>{post?.title}</div>
+      <div className={classes.postDescription}>{post?.shortDescription}</div>
+      <div>
+        <div className={classes.postAuthor}>
+          <FormattedMessage id="app_posted_by" /> {post?.author?.username} • {formatRelativeTime(post?.createdAt)}
+        </div>
+        <img
+          src={
+            post?.mainImage?.startsWith('https://')
+              ? post?.mainImage
+              : `${import.meta.env.VITE_API_BASE_URL}${post?.mainImage}`
+          }
+          alt={post?.title}
+          className={classes.postImage}
+        />
+        <div className={classes.postContent} dangerouslySetInnerHTML={{ __html: post?.content }} />
+      </div>
+    </div>
+  );
 };
 
 PostDetail.propTypes = {

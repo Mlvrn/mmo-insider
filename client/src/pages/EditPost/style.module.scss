@@ -99,8 +99,3 @@
   @include hover-shine;
   margin: 2rem 0;
 }
-
-.quill > .ql-container > .ql-editor.ql-blank::before {
-  font-size: 20px;
-  color: red;
-}
