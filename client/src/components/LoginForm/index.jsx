@@ -4,6 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import toast from 'react-hot-toast';
 
 import { forgotPasswordRequest, loginUser } from '@containers/Client/actions';
 import FormInput from '@components/FormInput.jsx';
@@ -13,7 +14,6 @@ import { createStructuredSelector } from 'reselect';
 import { useNavigate } from 'react-router-dom';
 
 import classes from './style.module.scss';
-import toast from 'react-hot-toast';
 
 const LoginForm = ({ isRightPanelActive, intl: { formatMessage }, login }) => {
   const { register, handleSubmit, watch } = useForm();
@@ -32,7 +32,6 @@ const LoginForm = ({ isRightPanelActive, intl: { formatMessage }, login }) => {
   };
 
   const handleForgotPassword = () => {
-    console.log(email);
     if (email) {
       dispatch(forgotPasswordRequest(email));
     } else {

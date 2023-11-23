@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { Post, User, Vote } = require('../models');
+const { Post, User, Vote, Comment } = require('../models');
 const {
   handleResponse,
   handleServerError,
@@ -120,25 +120,42 @@ exports.editPostById = async (req, res) => {
   }
 };
 
+async function deleteCommentAndReplies(commentId) {
+  const replies = await Comment.findAll({ where: { parentId: commentId } });
+  for (const reply of replies) {
+    await deleteCommentAndReplies(reply.id);
+  }
+  await Comment.destroy({ where: { id: commentId } });
+}
+
 exports.deletePostById = async (req, res) => {
   try {
     const postId = req.params.postId;
     const userId = req.user.id;
 
-    const post = await Post.findOne({
-      where: { id: postId, authorId: userId },
-    });
+    const postToDelete =
+      req.user.role === 1
+        ? await Post.findByPk(postId)
+        : await Post.findOne({ where: { id: postId, authorId: userId } });
 
-    if (!post) {
+    if (!postToDelete) {
       return handleResponse(res, 404, {
         message: 'Post not found or access denied',
       });
     }
 
-    await post.destroy();
+    const comments = await Comment.findAll({
+      where: { postId: postToDelete.id, parentId: null },
+    });
+    for (const comment of comments) {
+      await deleteCommentAndReplies(comment.id);
+    }
+
+    await postToDelete.destroy();
 
     return handleResponse(res, 200, { message: 'Post deleted successfully' });
   } catch (error) {
+    console.log(error);
     return handleServerError(res);
   }
 };

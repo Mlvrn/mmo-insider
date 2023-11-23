@@ -8,9 +8,9 @@ const {
 
 const router = express.Router();
 
-router.use(authenticate);
-
 router.get('/all/:postId', getCommentsByPostId);
+
+router.use(authenticate);
 router.post('/create/:postId', createComment);
 
 module.exports = router;

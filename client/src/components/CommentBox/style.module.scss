@@ -1,1 +1,85 @@
 @import '@styles/base';
+
+.container {
+  border-bottom: 1px solid $color-text-secondary;
+  padding-bottom: 1.25rem;
+  .commentContainer {
+    @include flex-items-center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+
+    .avatarUser {
+      align-self: flex-start;
+      margin: 0.25rem 0 0 0.25rem;
+    }
+    .content {
+      @include flex-column;
+      gap: 0.25rem;
+      .name {
+        font-size: 0.85rem;
+      }
+      .comment {
+        font-size: 0.75rem;
+        color: $color-text-secondary;
+      }
+      .reply {
+        cursor: pointer;
+        font-size: 0.6rem;
+        width: fit-content;
+        &:hover {
+          color: $color-text-secondary;
+        }
+      }
+    }
+  }
+  .replyInputContainer {
+    @include flex-column;
+    gap: 1rem;
+
+    .replyInput {
+      font-family: 'Quantico', 'sans-serif';
+
+      border-radius: 0.5rem;
+      resize: none;
+      height: 4rem;
+      padding: 0.5rem;
+      background-color: transparent;
+      color: $color-text-primary;
+      outline: 0;
+      margin-left: 3rem;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    .replyActions {
+      @include flex-items-center;
+      gap: 1rem;
+      align-self: flex-end;
+
+      .button {
+        font-family: 'Quantico', 'sans-serif';
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.25rem;
+        color: $color-text-primary;
+        width: fit-content;
+      }
+      .replyButton {
+        @include hover-shine;
+        background: linear-gradient(to bottom, $color-secondary, $color-primary);
+      }
+      .cancelButton {
+        background-color: transparent;
+        border: 1px solid $color-primary;
+        &:hover {
+          background-color: $color-primary;
+        }
+      }
+    }
+    .divider {
+      height: 0;
+      border-top: 1px solid $color-text-secondary;
+    }
+  }
+}

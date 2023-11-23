@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
       Post.hasMany(models.Comment, {
-        foreignKey: { name: 'postId' },
+        foreignKey: 'postId',
+        onDelete: 'CASCADE',
       });
       Post.belongsToMany(models.User, {
         as: 'vote',

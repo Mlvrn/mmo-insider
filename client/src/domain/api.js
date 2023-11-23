@@ -7,6 +7,7 @@ const endpoints = {
   ping: 'ping.json',
   user: 'user',
   post: 'post',
+  comment: 'comment',
 };
 
 export const callAPI = async (endpoint, method, header = {}, params = {}, data = {}) => {
@@ -51,3 +52,7 @@ export const deletePostByIdApi = (postId, token) =>
 
 export const editPostById = (postId, data, token) =>
   callAPI(`${endpoints.post}/edit/${postId}`, 'PUT', { Authorization: `Bearer ${token}` }, {}, data);
+
+export const getCommentsByPostIdApi = (postId) => callAPI(`${endpoints.comment}/all/${postId}`, 'GET');
+export const createCommentApi = (postId, data, token) =>
+  callAPI(`${endpoints.comment}/create/${postId}`, 'POST', { Authorization: `Bearer ${token}` }, {}, data);
