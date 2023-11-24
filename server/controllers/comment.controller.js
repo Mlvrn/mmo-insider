@@ -18,14 +18,14 @@ exports.getCommentsByPostId = async (req, res) => {
             {
               model: User,
               as: 'user',
-              attributes: ['username'],
+              attributes: ['username', 'avatar'],
             },
           ],
         },
         {
           model: User,
           as: 'user',
-          attributes: ['username'],
+          attributes: ['username', 'avatar'],
         },
       ],
       order: [['createdAt', 'DESC']],
@@ -51,13 +51,11 @@ exports.createComment = async (req, res) => {
       postId,
     });
 
-    // Fetch the user data for the created comment
     const user = await User.findOne({
       where: { id: userId },
-      attributes: ['username'],
+      attributes: ['username', 'avatar'],
     });
 
-    // Include the user data in the response JSON
     const responseComment = {
       id: comment.id,
       text: comment.text,
@@ -68,6 +66,7 @@ exports.createComment = async (req, res) => {
       postId: parseInt(comment.postId),
       user: {
         username: user.username,
+        avatar: user.avatar,
       },
       replies: [],
     };

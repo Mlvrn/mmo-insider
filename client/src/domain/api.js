@@ -37,21 +37,28 @@ export const loginApi = (data) => callAPI(`${endpoints.user}/login`, 'POST', {},
 export const forgotPasswordApi = (data) => callAPI(`${endpoints.user}/forgot-password`, 'POST', {}, {}, data);
 
 export const getPostsApi = () => callAPI(`${endpoints.post}/all`, 'GET');
+export const getPaginatedPostsApi = (page, limit) =>
+  callAPI(`${endpoints.post}/paginate?page=${page}&limit=${limit}`, 'GET');
 export const getPostByIdApi = (postId) => callAPI(`${endpoints.post}/${postId}`, 'GET');
-export const getUsersApi = () => callAPI(`${endpoints.user}/all`, 'GET');
-export const getUserByIdApi = (token) => callAPI(`${endpoints.user}`, 'GET', { Authorization: `Bearer ${token}` });
-
+export const getPostsByUsernameApi = (username) => callAPI(`${endpoints.post}/all/${username}`, 'GET');
 export const createPostApi = (data, token) =>
   callAPI(`${endpoints.post}/create`, 'POST', { Authorization: `Bearer ${token}` }, {}, data);
-
 export const votePostApi = (postId, data, token) =>
   callAPI(`${endpoints.post}/vote/${postId}`, 'POST', { Authorization: `Bearer ${token}` }, {}, data);
-
 export const deletePostByIdApi = (postId, token) =>
   callAPI(`${endpoints.post}/delete/${postId}`, 'DELETE', { Authorization: `Bearer ${token}` });
-
 export const editPostById = (postId, data, token) =>
   callAPI(`${endpoints.post}/edit/${postId}`, 'PUT', { Authorization: `Bearer ${token}` }, {}, data);
+
+export const getUserByUsernameApi = (username) => callAPI(`${endpoints.user}/by/${username}`, 'GET');
+export const getUsersApi = () => callAPI(`${endpoints.user}/all`, 'GET');
+export const getUserByIdApi = (token) => callAPI(`${endpoints.user}`, 'GET', { Authorization: `Bearer ${token}` });
+export const deleteUserByIdApi = (userId, token) =>
+  callAPI(`${endpoints.user}/delete/${userId}`, 'DELETE', { Authorization: `Bearer ${token}` });
+export const editProfileApi = (data, token) =>
+  callAPI(`${endpoints.user}/profile`, 'PUT', { Authorization: `Bearer ${token}` }, {}, data);
+export const changePasswordApi = (data, token) =>
+  callAPI(`${endpoints.user}/profile/change-password`, 'PUT', { Authorization: `Bearer ${token}` }, {}, data);
 
 export const getCommentsByPostIdApi = (postId) => callAPI(`${endpoints.comment}/all/${postId}`, 'GET');
 export const createCommentApi = (postId, data, token) =>

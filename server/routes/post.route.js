@@ -6,19 +6,23 @@ const {
   editPostById,
   deletePostById,
   voteOnPost,
+  getPaginatedPosts,
+  getPostsByUser,
 } = require('../controllers/post.controller');
-const uploadMiddleware = require('../middlewares/multer');
 const { authenticate } = require('../middlewares/authentication');
+const { uploadPostImage } = require('../middlewares/multer');
 
 const router = express.Router();
 
 router.get('/all', getPosts);
+router.get('/paginate', getPaginatedPosts);
 router.get('/:postId', getPostById);
+router.get('/all/:username', getPostsByUser);
 
 router.use(authenticate);
 
-router.post('/create', uploadMiddleware, createPost);
-router.put('/edit/:postId', uploadMiddleware, editPostById);
+router.post('/create', uploadPostImage, createPost);
+router.put('/edit/:postId', uploadPostImage, editPostById);
 router.delete('/delete/:postId', deletePostById);
 router.post('/vote/:postId', voteOnPost);
 

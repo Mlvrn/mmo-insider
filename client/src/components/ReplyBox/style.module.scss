@@ -3,15 +3,6 @@
 .container {
   @include flex-items-center;
   gap: 1rem;
-
-  // .verticalLine {
-  //   border-left: 3px solid $color-text-secondary;
-  //   width: 1px;
-  //   min-height: 100%;
-  //   height: 4rem;
-  //   margin-left: 1.25rem;
-  //   margin-right: 0.75rem;
-  // }
   .wrapper {
     border-left: 3px solid $color-text-secondary;
     padding: 0.5rem 0 0.5rem 2rem;
@@ -27,10 +18,14 @@
       @include flex-column;
       gap: 0.25rem;
       .name {
-        font-size: 0.85rem;
+        cursor: pointer;
+        font-size: 0.75rem;
+        &:hover {
+          text-decoration: underline;
+        }
       }
       .comment {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         color: $color-text-secondary;
       }
       .reply {

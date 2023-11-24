@@ -13,6 +13,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-const uploadMiddleware = upload.single('mainImage');
+const uploadPostImage = upload.single('mainImage');
 
-module.exports = uploadMiddleware;
+const uploadAvatar = upload.single('avatar');
+
+module.exports = { uploadPostImage, uploadAvatar };

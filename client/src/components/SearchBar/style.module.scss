@@ -1,0 +1,28 @@
+@import '@styles/base';
+
+.searchBar {
+  @include flex-items-center;
+  border: 1px solid $color-secondary;
+  border-radius: 1rem;
+  padding: 0.25rem 0.75rem;
+
+  .searchInput {
+    font-family: 'Quantico', 'sans-serif';
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0.25rem;
+    width: 100%;
+    font-size: 0.75rem;
+    color: $color-text-primary;
+
+    &::placeholder {
+      color: $color-text-secondary;
+    }
+  }
+
+  .searchIcon {
+    color: $color-text-primary;
+    cursor: pointer;
+  }
+}

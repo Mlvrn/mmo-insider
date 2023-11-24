@@ -30,26 +30,16 @@ const postDetailReducer = (state = initialState, action) =>
         break;
       case SET_COMMENTS_BY_POST_ID:
         draft.comments = action.payload.comments;
-        console.log('After update:', draft.comments);
         break;
       case CREATE_COMMENT_SUCCESS:
         draft.comments.unshift(action.payload.comment);
         break;
       case CREATE_REPLY_SUCCESS: {
         const { parentId } = action.payload;
-        console.log('Parent ID:', parentId);
-
-        console.log('Before update:', draft.comments);
-
         const commentToUpdate = draft.comments.find((comment) => comment.id === parentId);
-
-        console.log('Comment to Update:', commentToUpdate);
-
         if (commentToUpdate) {
           commentToUpdate.replies.push(action.payload);
         }
-
-        console.log('After update:', draft.comments);
         break;
       }
     }

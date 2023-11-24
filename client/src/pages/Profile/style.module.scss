@@ -1,0 +1,84 @@
+@import '@styles/base';
+
+.container {
+  @include flex-column;
+  gap: 3rem;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 0 3rem;
+  .profileContainer {
+    margin-top: 6rem;
+    @include flex-column;
+    gap: 1rem;
+    box-sizing: border-box;
+    .profile {
+      padding: 2rem;
+      @include directionY;
+      flex-direction: column-reverse;
+      gap: 2rem;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid $color-text-primary;
+      border-radius: 1rem;
+      @include hover-shine;
+      @include apply-at-md-size {
+        @include directionX;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .profileLeft {
+        @include flex-center-column;
+        gap: 2rem;
+        @include apply-at-md-size {
+          @include directionX;
+        }
+      }
+      .avatar {
+        @include box(8rem);
+        box-shadow: 0 0 10px 1px $color-secondary;
+      }
+      .userInfo {
+        @include flex-column;
+        gap: 1rem;
+        .email {
+          color: $color-text-secondary;
+          font-size: 0.8rem;
+        }
+        .bioContainer {
+          @include flex-column;
+          width: 100%;
+          .bio {
+            color: $color-text-secondary;
+            font-size: 0.8rem;
+          }
+        }
+      }
+
+      .editButton {
+        cursor: pointer;
+        @include flex-items-center;
+        gap: 0.5rem;
+        border: 1px solid $color-secondary;
+        padding: 0.5rem;
+        border-radius: 50%;
+        @include box(fit-content);
+        align-self: flex-end;
+        @include apply-at-md-size {
+          align-self: flex-start;
+        }
+        &:hover {
+          @include hover-shine;
+        }
+        .editIcon {
+          @include box(1rem);
+          color: $color-secondary;
+        }
+      }
+    }
+  }
+  .postContainer {
+    .noPost {
+      text-align: center;
+    }
+  }
+}

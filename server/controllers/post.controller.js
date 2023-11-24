@@ -4,6 +4,8 @@ const {
   handleResponse,
   handleServerError,
 } = require('../utils/responseHandler');
+const fs = require('fs');
+const path = require('path');
 const { createPostValidator } = require('../validators/post.validator');
 
 exports.getPosts = async (req, res) => {
@@ -13,7 +15,7 @@ exports.getPosts = async (req, res) => {
         {
           model: User,
           as: 'author',
-          attributes: ['id', 'username', 'email'],
+          attributes: ['id', 'username', 'email', 'avatar'],
         },
       ],
       attributes: { exclude: ['authorId'] },
@@ -26,6 +28,70 @@ exports.getPosts = async (req, res) => {
   }
 };
 
+exports.getPaginatedPosts = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows: posts } = await Post.findAndCountAll({
+      limit,
+      offset,
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username', 'email', 'avatar'],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
+    });
+
+    return handleResponse(res, 200, {
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+      totalPosts: count,
+      posts,
+    });
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
+exports.getPostsByUser = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({
+      where: {
+        username,
+      },
+    });
+
+    if (!user) {
+      return handleResponse(res, 404, { message: 'User not found.' });
+    }
+
+    const posts = await Post.findAll({
+      where: {
+        authorId: user.id,
+      },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username', 'email', 'avatar'],
+        },
+      ],
+      attributes: { exclude: ['authorId'] },
+      order: [['createdAt', 'DESC']],
+    });
+
+    return handleResponse(res, 200, { posts });
+  } catch (error) {
+    return handleServerError(res);
+  }
+};
+
 exports.getPostById = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -34,7 +100,7 @@ exports.getPostById = async (req, res) => {
         {
           model: User,
           as: 'author',
-          attributes: ['id', 'username', 'email'],
+          attributes: ['id', 'username', 'email', 'avatar'],
         },
       ],
       attributes: { exclude: ['authorId'] },
@@ -89,25 +155,36 @@ exports.editPostById = async (req, res) => {
 
     const { title, shortDescription, content } = value;
 
-    const [updatedRowCount] = await Post.update(
-      {
-        title,
-        shortDescription,
-        content,
-        mainImage: req.file
-          ? `/uploads/${req.file.filename}`
-          : Sequelize.literal('mainImage'),
-      },
-      {
-        where: { id: postId, authorId: userId },
-      }
-    );
-
-    if (updatedRowCount === 0) {
+    const currentPost = await Post.findOne({
+      where: { id: postId, authorId: userId },
+    });
+    if (!currentPost) {
       return handleResponse(res, 404, {
         message: 'Post not found or access denied',
       });
     }
+
+    let mainImagePath;
+    if (req.file) {
+      mainImagePath = `/uploads/${req.file.filename}`;
+
+      if (currentPost.mainImage) {
+        const oldImagePath = path.join(__dirname, '..', currentPost.mainImage);
+        fs.unlink(oldImagePath, (err) => {
+          if (err) console.error('Failed to delete old image:', err);
+        });
+      }
+    }
+
+    await Post.update(
+      {
+        title,
+        shortDescription,
+        content,
+        mainImage: mainImagePath || Sequelize.literal('mainImage'),
+      },
+      { where: { id: postId, authorId: userId } }
+    );
 
     const updatedPost = await Post.findOne({ where: { id: postId } });
 
@@ -119,14 +196,6 @@ exports.editPostById = async (req, res) => {
     return handleServerError(res);
   }
 };
-
-async function deleteCommentAndReplies(commentId) {
-  const replies = await Comment.findAll({ where: { parentId: commentId } });
-  for (const reply of replies) {
-    await deleteCommentAndReplies(reply.id);
-  }
-  await Comment.destroy({ where: { id: commentId } });
-}
 
 exports.deletePostById = async (req, res) => {
   try {
@@ -144,13 +213,6 @@ exports.deletePostById = async (req, res) => {
       });
     }
 
-    const comments = await Comment.findAll({
-      where: { postId: postToDelete.id, parentId: null },
-    });
-    for (const comment of comments) {
-      await deleteCommentAndReplies(comment.id);
-    }
-
     await postToDelete.destroy();
 
     return handleResponse(res, 200, { message: 'Post deleted successfully' });
@@ -163,7 +225,7 @@ exports.deletePostById = async (req, res) => {
 exports.voteOnPost = async (req, res) => {
   const { postId } = req.params;
   const userId = req.user.id;
-  const { voteValue } = req.body; // +1 for like, -1 for dislike
+  const { voteValue } = req.body;
 
   try {
     const [vote, created] = await Vote.findOrCreate({
@@ -176,7 +238,6 @@ exports.voteOnPost = async (req, res) => {
       await vote.save();
     }
 
-    // Update the like count of the post
     const totalLikes = (await Vote.sum('value', { where: { postId } })) || 0;
     await Post.update({ voteCount: totalLikes }, { where: { id: postId } });
 

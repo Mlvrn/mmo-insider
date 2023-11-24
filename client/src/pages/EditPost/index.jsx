@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import BackButton from '@components/BackButton';
 
@@ -15,7 +16,7 @@ import { selectPost } from '@pages/PostDetail/selectors';
 import classes from './style.module.scss';
 import { updatePostById } from './action';
 
-const EditPost = ({ post, token }) => {
+const EditPost = ({ post, token, intl: { formatMessage } }) => {
   const { postId } = useParams();
   const dispatch = useDispatch();
   const [title, setTitle] = useState(post?.title);
@@ -65,11 +66,13 @@ const EditPost = ({ post, token }) => {
       <form className={classes.form} onSubmit={onSubmit}>
         {/* Title */}
         <div className={classes.formItem}>
-          <div className={classes.formLabel}>Title</div>
+          <div className={classes.formLabel}>
+            <FormattedMessage id="app_title" />
+          </div>
           <input
             className={`${classes.formInput} ${classes.title}`}
             type="text"
-            placeholder="e.g. Latest MMO Updates: What Gamers Need to Know"
+            placeholder={formatMessage({ id: 'app_title_placeholder' })}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -77,11 +80,13 @@ const EditPost = ({ post, token }) => {
 
         {/* Description */}
         <div className={classes.formItem}>
-          <div className={classes.formLabel}>Description</div>
+          <div className={classes.formLabel}>
+            <FormattedMessage id="app_description" />
+          </div>
           <input
             className={`${classes.formInput} ${classes.description}`}
             type="text"
-            placeholder="e.g. Catch up on the latest news, events, and updates from your favorite MMOs."
+            placeholder={formatMessage({ id: 'app_description_placeholder' })}
             value={shortDescription}
             onChange={(e) => setShortDescription(e.target.value)}
           />
@@ -89,9 +94,13 @@ const EditPost = ({ post, token }) => {
 
         {/* Main Image */}
         <div className={classes.formItem}>
-          <div className={classes.formLabel}>Main Image</div>
+          <div className={classes.formLabel}>
+            <FormattedMessage id="app_main_image" />
+          </div>
           <label htmlFor="images" className={classes.dropContainer} onDrop={handleDrop} onDragOver={handleDragOver}>
-            <span className={classes.dropTitle}>{selectedFileName || 'Drop files here or click to select'}</span>
+            <span className={classes.dropTitle}>
+              {selectedFileName || formatMessage({ id: 'app_image_placeholder' })}
+            </span>
             <input
               type="file"
               id="images"
@@ -104,19 +113,15 @@ const EditPost = ({ post, token }) => {
 
         {/* Content */}
         <div className={classes.formItem}>
-          <div className={classes.formLabel}>Content</div>
-          <ReactQuill
-            className={classes.quill}
-            theme="snow"
-            value={content}
-            onChange={setContent}
-            placeholder="Some text"
-          />
+          <div className={classes.formLabel}>
+            <FormattedMessage id="app_content" />
+          </div>
+          <ReactQuill className={classes.quill} theme="snow" value={content} onChange={setContent} />
         </div>
 
         {/* Submit Button */}
         <button type="submit" className={classes.createButton}>
-          Edit Post
+          <FormattedMessage id="app_edit_post" />
         </button>
       </form>
     </div>
@@ -126,6 +131,7 @@ const EditPost = ({ post, token }) => {
 EditPost.propTypes = {
   post: PropTypes.object,
   token: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -133,4 +139,4 @@ const mapStateToProps = createStructuredSelector({
   post: selectPost,
 });
 
-export default connect(mapStateToProps)(EditPost);
+export default injectIntl(connect(mapStateToProps)(EditPost));

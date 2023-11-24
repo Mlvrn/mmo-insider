@@ -3,9 +3,9 @@ import { createStructuredSelector } from 'reselect';
 import { connect, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { CircularProgress } from '@mui/material';
+import { Avatar, CircularProgress } from '@mui/material';
 import { Pencil, Trash2 } from 'lucide-react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { formatRelativeTime } from '@utils/format';
 import BackButton from '@components/BackButton';
@@ -19,7 +19,7 @@ import { selectComments, selectDeleteSuccess, selectPost } from './selectors';
 
 import classes from './style.module.scss';
 
-const PostDetail = ({ post, loading, user, token, deleteSuccess, comments }) => {
+const PostDetail = ({ post, loading, user, token, deleteSuccess, comments, intl: { formatMessage } }) => {
   const { postId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -82,6 +82,7 @@ const PostDetail = ({ post, loading, user, token, deleteSuccess, comments }) => 
           isOpen={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
           onConfirm={handleDeleteConfirm}
+          message={formatMessage({ id: 'app_are_you_sure_delete_post' })}
         />
       </div>
       {loading ? (
@@ -93,8 +94,10 @@ const PostDetail = ({ post, loading, user, token, deleteSuccess, comments }) => 
           <div className={classes.postTitle}>{post?.title}</div>
           <div className={classes.postDescription}>{post?.shortDescription}</div>
           <div>
-            <div className={classes.postAuthor}>
-              <FormattedMessage id="app_posted_by" /> {post?.author?.username} • {formatRelativeTime(post?.createdAt)}
+            <div className={classes.postAuthor} onClick={() => navigate(`/profile/user/${post?.author?.username}`)}>
+              <Avatar src={`${import.meta.env.VITE_API_BASE_URL}${post?.author?.avatar}`} className={classes.avatar} />
+              <FormattedMessage id="app_posted_by" /> @{post?.author?.username} • {formatRelativeTime(post?.createdAt)}{' '}
+              <FormattedMessage id="app_ago" />
             </div>
             <img
               src={
@@ -111,23 +114,27 @@ const PostDetail = ({ post, loading, user, token, deleteSuccess, comments }) => 
       )}
 
       <div className={classes.commentContainer}>
-        <div className={classes.commentTitle}>Comments</div>
+        <div className={classes.commentTitle}>
+          <FormattedMessage id="app_comments" />
+        </div>
         {user && (
           <div className={classes.commentInputContainer}>
             <textarea
               className={classes.commentInput}
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Comment something..."
+              placeholder={formatMessage({ id: 'app_comment_placeholder' })}
             />
             <button type="button" className={classes.commentButton} onClick={handleCommentSubmit}>
-              Comment
+              <FormattedMessage id="app_comment" />
             </button>
             <div className={classes.divider} />
           </div>
         )}
         {comments?.length === 0 ? (
-          <div className={classes.noComments}>No comments yet.</div>
+          <div className={classes.noComments}>
+            <FormattedMessage id="app_no_comment" />
+          </div>
         ) : (
           comments?.map((comment, index) => (
             <CommentBox
@@ -137,6 +144,7 @@ const PostDetail = ({ post, loading, user, token, deleteSuccess, comments }) => 
               parentId={comment?.id}
               token={token}
               replies={comment?.replies}
+              user={user}
             />
           ))
         )}
@@ -152,6 +160,7 @@ PostDetail.propTypes = {
   token: PropTypes.string,
   deleteSuccess: PropTypes.bool,
   comments: PropTypes.array,
+  intl: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -163,4 +172,4 @@ const mapStateToProps = createStructuredSelector({
   comments: selectComments,
 });
 
-export default connect(mapStateToProps)(PostDetail);
+export default injectIntl(connect(mapStateToProps)(PostDetail));

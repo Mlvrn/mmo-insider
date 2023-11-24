@@ -1,5 +1,6 @@
 import {
   FORGOT_PASSWORD,
+  GET_USER_BY_ID,
   LOGIN_USER,
   LOGOUT_USER,
   REGISTER_USER,
@@ -7,6 +8,7 @@ import {
   SET_LOGIN,
   SET_TOKEN,
   SET_USER,
+  SET_USER_BY_ID,
 } from '@containers/Client/constants';
 
 export const setLogin = (login) => ({
@@ -47,4 +49,15 @@ export const logoutUser = () => ({
 export const forgotPasswordRequest = (email) => ({
   type: FORGOT_PASSWORD,
   payload: { email },
+});
+
+export const getUserById = (token) => ({
+  type: GET_USER_BY_ID,
+  token,
+});
+
+export const setUserById = (user, token) => ({
+  type: SET_USER_BY_ID,
+  payload: user,
+  token,
 });

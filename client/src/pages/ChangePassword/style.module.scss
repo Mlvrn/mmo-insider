@@ -1,0 +1,57 @@
+@import '@styles/base';
+
+.container {
+  @include flex-column;
+  margin: 0 auto;
+  margin-top: 6rem;
+  gap: 4rem;
+  max-width: 15rem;
+
+  .formContainer {
+    border-radius: 0.5rem;
+    border: 1px solid $color-text-primary;
+    gap: 1rem;
+    @include flex-column;
+    padding: 1rem 2rem;
+    .form {
+      @include flex-column;
+      gap: 1rem;
+      .formGroup {
+        @include flex-column;
+        gap: 0.5rem;
+        .formLabel {
+          font-size: 0.75rem;
+        }
+        .formInput {
+          @include flex-items-center;
+          gap: 0.75rem;
+          .icon {
+            @include box(1.5rem);
+          }
+          .input {
+            font-family: 'Quantico', 'sans-serif';
+            font-size: 0.75rem;
+            padding: 0.5rem;
+            background-color: transparent;
+            border-radius: 0.25rem;
+            color: $color-text-primary;
+            width: 100%;
+          }
+        }
+      }
+      .submitButton {
+        font-family: 'Quantico', 'sans-serif';
+        color: $color-text-primary;
+        padding: 0.25rem 0.75rem;
+        background: linear-gradient(to bottom, $color-secondary, $color-primary);
+        border-radius: 0.25rem;
+        border: none;
+        @include hover-shine;
+        @include apply-at-md-size {
+          width: fit-content;
+          align-self: flex-end;
+        }
+      }
+    }
+  }
+}

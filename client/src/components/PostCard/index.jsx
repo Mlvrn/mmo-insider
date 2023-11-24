@@ -5,6 +5,8 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { downvotePost, upvotePost } from '@pages/Home/actions';
 import { selectToken } from '@containers/Client/selectors';
+import { FormattedMessage } from 'react-intl';
+
 import { formatRelativeTime } from '@utils/format';
 
 import classes from './style.module.scss';
@@ -49,7 +51,7 @@ const PostCard = ({ post, token }) => {
           <div className={classes.postTitle}>{post?.title}</div>
           <div className={classes.postDescription}>{post?.shortDescription}</div>
           <div className={classes.postAuthor}>
-            {post?.author?.username} - {formatRelativeTime(post?.createdAt)}
+            @{post?.author?.username} - {formatRelativeTime(post?.createdAt)} <FormattedMessage id="app_ago" />
           </div>
         </div>
       </div>

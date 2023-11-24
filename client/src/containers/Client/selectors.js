@@ -7,3 +7,4 @@ export const selectLogin = createSelector(selectClientState, (state) => state.lo
 export const selectToken = createSelector(selectClientState, (state) => state.token);
 export const selectUser = createSelector(selectClientState, (state) => state.user);
 export const selectErrorMessage = createSelector(selectClientState, (state) => state.error);
+export const selectCurrentUser = createSelector(selectClientState, (state) => state.currentUser);

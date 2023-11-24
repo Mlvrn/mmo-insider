@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,8 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { LogOut, Plus, Swords } from 'lucide-react';
+import { LogOut, Plus, Swords, User } from 'lucide-react';
+import { AdminPanelSettings } from '@mui/icons-material';
 
 import CreatePostButton from '@components/CreatePostButton';
 
@@ -15,18 +16,24 @@ import { setLocale } from '@containers/App/actions';
 
 import { IconButton } from '@mui/material';
 import { createStructuredSelector } from 'reselect';
-import { selectUser } from '@containers/Client/selectors';
-import { logoutUser } from '@containers/Client/actions';
+import { selectCurrentUser, selectToken } from '@containers/Client/selectors';
+import { getUserById, logoutUser } from '@containers/Client/actions';
 
 import classes from './style.module.scss';
 
-const Navbar = ({ title, locale, user }) => {
+const Navbar = ({ title, locale, user, token }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [menuPosition, setMenuPosition] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(menuPosition);
   const [color, setColor] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getUserById(token));
+    }
+  }, [dispatch, token]);
 
   const changeColor = () => {
     if (window.scrollY >= 500) {
@@ -74,10 +81,6 @@ const Navbar = ({ title, locale, user }) => {
     navigateAuth();
   };
 
-  const navigateCreate = () => {
-    navigate('/post/create');
-  };
-
   return (
     <div
       className={color ? `${classes.headerWrapper} ${classes.headerWrapperBg}` : ` ${classes.headerWrapper} `}
@@ -102,7 +105,7 @@ const Navbar = ({ title, locale, user }) => {
           </div>
           {user && (
             <IconButton onClick={handleAvatarClick}>
-              <Avatar className={classes.avatarUser} src="https://source.unsplash.com/500x500/?avatar" />
+              <Avatar className={classes.avatarUser} src={`${import.meta.env.VITE_API_BASE_URL}${user?.avatar}`} />
             </IconButton>
           )}
           <Menu
@@ -120,11 +123,28 @@ const Navbar = ({ title, locale, user }) => {
             }}
           >
             <div className={classes.userData}>
-              <div className={classes.username}>{user?.username}</div>
+              <div className={classes.username}>@{user?.username}</div>
               <div className={classes.email}>{user?.email}</div>
             </div>
             <div className={classes.divider} />
-            <MenuItem onClick={navigateCreate} className={classes.dropdownAvatar__item}>
+            <MenuItem
+              onClick={() => navigate(`/profile/user/${user?.username}`)}
+              className={classes.dropdownAvatar__item}
+            >
+              <User className={classes.dropdownIcon} />
+              <div className={classes.dropdownText}>
+                <FormattedMessage id="app_profile" />
+              </div>
+            </MenuItem>
+            {user?.role === 1 && (
+              <MenuItem onClick={() => navigate('/admin')} className={classes.dropdownAvatar__item}>
+                <AdminPanelSettings className={classes.dropdownIcon} />
+                <div className={classes.dropdownText}>
+                  <FormattedMessage id="app_admin" />
+                </div>
+              </MenuItem>
+            )}
+            <MenuItem onClick={() => navigate('/post/create')} className={classes.dropdownAvatar__item}>
               <Plus className={classes.dropdownIcon} />
               <div className={classes.dropdownText}>
                 <FormattedMessage id="app_new_post" />
@@ -186,10 +206,12 @@ Navbar.propTypes = {
   title: PropTypes.string,
   locale: PropTypes.string.isRequired,
   user: PropTypes.object,
+  token: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
-  user: selectUser,
+  user: selectCurrentUser,
+  token: selectToken,
 });
 
 export default connect(mapStateToProps)(Navbar);

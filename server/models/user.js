@@ -11,10 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Post, {
         as: 'author',
         foreignKey: { name: 'authorId' },
+        onDelete: 'CASCADE',
       });
       User.hasMany(models.Comment, {
         as: 'user',
         foreignKey: { name: 'userId' },
+        onDelete: 'CASCADE',
       });
       User.belongsToMany(models.Post, {
         as: 'vote',
@@ -53,6 +55,10 @@ module.exports = (sequelize, DataTypes) => {
       isEmailVerified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      bio: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
     },
     {

@@ -16,10 +16,14 @@
       @include flex-column;
       gap: 0.25rem;
       .name {
-        font-size: 0.85rem;
+        cursor: pointer;
+        font-size: 0.75rem;
+        &:hover {
+          text-decoration: underline;
+        }
       }
       .comment {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         color: $color-text-secondary;
       }
       .reply {
@@ -35,21 +39,25 @@
   .replyInputContainer {
     @include flex-column;
     gap: 1rem;
-
-    .replyInput {
-      font-family: 'Quantico', 'sans-serif';
-
-      border-radius: 0.5rem;
-      resize: none;
-      height: 4rem;
-      padding: 0.5rem;
-      background-color: transparent;
-      color: $color-text-primary;
-      outline: 0;
+    .replyInputWrapper {
+      @include directionX;
       margin-left: 3rem;
-      overflow: hidden;
-      box-sizing: border-box;
+      gap: 1rem;
+      .replyInput {
+        font-family: 'Quantico', 'sans-serif';
+        width: 100%;
+        border-radius: 0.5rem;
+        resize: none;
+        height: 4rem;
+        padding: 0.5rem;
+        background-color: transparent;
+        color: $color-text-primary;
+        outline: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
     }
+
     .replyActions {
       @include flex-items-center;
       gap: 1rem;

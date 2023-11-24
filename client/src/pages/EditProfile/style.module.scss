@@ -1,0 +1,147 @@
+@import '@styles/base';
+
+.page {
+  max-width: 40rem;
+  @include flex-center-column;
+  gap: 2rem;
+  margin: 0 auto;
+  margin-top: 6rem;
+  padding: 2rem;
+  .back {
+    align-self: flex-start;
+  }
+  .container {
+    @include flex-column;
+    gap: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid $color-text-primary;
+    padding: 1rem;
+    .containerHeader {
+      font-size: 1.125rem;
+    }
+    .content {
+      @include flex-center-column;
+      gap: 2rem;
+      @include apply-at-md-size {
+        align-items: flex-start;
+        @include directionX;
+        gap: 1.5rem;
+      }
+
+      .left {
+        @include flex-center-column;
+        gap: 2rem;
+
+        .avatarContainer {
+          width: 10rem;
+          border-radius: 50%;
+          overflow: hidden;
+          position: relative;
+          cursor: pointer;
+          @include flex-center;
+          @include apply-at-md-size {
+            @include box(8rem);
+          }
+
+          img {
+            @include box(100%);
+            object-fit: cover;
+            @include hover-shine;
+          }
+
+          .avatarIcon {
+            margin: auto;
+            @include box(6rem);
+            background-color: rgba(255, 255, 255, 0.7);
+            @include hover-shine;
+            .addPhotoIcon {
+              @include box(2rem);
+            }
+          }
+        }
+        .changePassword {
+          cursor: pointer;
+          font-family: 'Quantico', 'sans-serif';
+          width: fit-content;
+          color: $color-text-primary;
+          background-color: transparent;
+          border-radius: 0.25rem;
+          border: 1px solid $color-secondary;
+          padding: 0.25rem 0.5rem;
+          &:hover {
+            color: $color-bg;
+            background-color: $color-secondary;
+          }
+        }
+      }
+    }
+
+    .formContainer {
+      @include flex-column;
+      gap: 1rem;
+      width: 100%;
+      .upperFormContainer {
+        @include flex-center-column;
+        @include apply-at-md-size {
+          @include flex-items-center;
+          flex-direction: row;
+        }
+
+        justify-content: space-between;
+        gap: 2rem;
+      }
+      .inputContainer {
+        @include flex-column;
+        width: 100%;
+        gap: 0.5rem;
+        .label {
+          font-size: 0.8rem;
+          @include flex-items-center;
+          gap: 0.25rem;
+          svg {
+            @include box(0.8rem);
+          }
+        }
+        .input {
+          font-family: 'Quantico', 'sans-serif';
+          background-color: transparent;
+          border-radius: 0.25rem;
+          padding: 0.5rem;
+          color: $color-text-primary;
+          border: 1px solid $color-text-primary;
+          outline: none;
+          &:focus {
+            box-shadow: 0 0 10px 1px $color-secondary;
+          }
+        }
+        .bio {
+          resize: none;
+          height: 5rem;
+        }
+      }
+      .button {
+        cursor: pointer;
+
+        padding: 0.25rem 0.75rem;
+        font-size: 1rem;
+        font-family: 'Quantico', 'sans-serif';
+        background: linear-gradient(to bottom, $color-secondary, $color-primary);
+        border: none;
+        border-radius: 0.25rem;
+        color: $color-text-primary;
+
+        @include apply-at-sm-size {
+          align-self: flex-end;
+
+          width: fit-content;
+        }
+        @include apply-at-md-size {
+          font-size: 0.75rem;
+        }
+        @include hover-shine;
+      }
+    }
+  }
+}

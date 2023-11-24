@@ -5,10 +5,14 @@ const {
 const {
   registerValidator,
   loginValidator,
+  editProfileValidator,
+  changePasswordValidator,
 } = require('../validators/user.validator');
-const { User } = require('../models');
-const { Op } = require('sequelize');
+const { User, Post } = require('../models');
+const { Op, Sequelize } = require('sequelize');
 const { comparePassword, hashPassword } = require('../utils/bcrypt');
+const fs = require('fs');
+const path = require('path');
 const {
   generateToken,
   generateVerificationToken,
@@ -144,11 +148,30 @@ exports.getUserById = async (req, res) => {
         message: 'User not found.',
       });
     }
-    const { email, username, role } = user;
+    const { email, username, role, avatar, bio } = user;
 
-    return handleResponse(res, 200, { email, username, role });
+    return handleResponse(res, 200, { email, username, role, avatar, bio });
   } catch (error) {
     console.log(error);
+    return handleServerError(res);
+  }
+};
+
+exports.getUserByUsername = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    const user = await User.findOne({
+      where: { username },
+      attributes: ['id', 'username', 'email', 'avatar', 'createdAt', 'bio'],
+    });
+
+    if (!user) {
+      return handleResponse(res, 404, { message: 'User not found.' });
+    }
+
+    return handleResponse(res, 200, { user });
+  } catch (error) {
     return handleServerError(res);
   }
 };
@@ -175,6 +198,115 @@ exports.forgotPassword = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return handleServerError(res);
+  }
+};
+
+exports.deleteUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return handleResponse(res, 404, { message: 'User not found.' });
+    }
+
+    await user.destroy();
+
+    return handleResponse(res, 200, {
+      deletedUser: user,
+      message: 'User deleted successfully.',
+    });
+  } catch (error) {
+    console.log(error);
+    return handleServerError(res);
+  }
+};
+
+exports.editProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const profileData = req.body;
+
+    const { error, value } = editProfileValidator.validate(profileData);
+    if (error) {
+      return handleResponse(res, 400, { message: error.details[0].message });
+    }
+
+    const { username, email, bio } = value;
+
+    const currentUser = await User.findOne({ where: { id: userId } });
+    if (!currentUser) {
+      return handleResponse(res, 404, { message: 'User not found' });
+    }
+
+    let avatarPath;
+    if (req.file) {
+      avatarPath = `/uploads/${req.file.filename}`;
+
+      if (currentUser.avatar) {
+        const oldAvatarPath = path.join(__dirname, '..', currentUser.avatar);
+        fs.unlink(oldAvatarPath, (err) => {
+          if (err) console.error('Failed to delete old avatar image:', err);
+        });
+      }
+    }
+
+    await User.update(
+      {
+        username,
+        email,
+        bio,
+        avatar: avatarPath || Sequelize.literal('avatar'),
+      },
+      { where: { id: userId } }
+    );
+
+    const updatedUser = await User.findOne({ where: { id: userId } });
+
+    return handleResponse(res, 200, {
+      user: updatedUser,
+      message: 'Profile updated successfully!',
+    });
+  } catch (error) {
+    console.log(error);
+    return handleServerError(res);
+  }
+};
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    const { error, value } = changePasswordValidator.validate({
+      currentPassword,
+      newPassword,
+    });
+
+    if (error) {
+      return handleResponse(res, 400, { message: error.details[0].message });
+    }
+
+    const user = await User.findByPk(userId);
+
+    const isPasswordMatch = await comparePassword(
+      value.currentPassword,
+      user.password
+    );
+
+    if (!isPasswordMatch) {
+      return handleResponse(res, 401, {
+        message: 'Current password is incorrect',
+      });
+    }
+
+    const hashedNewPassword = hashPassword(value.newPassword);
+    await user.update({ password: hashedNewPassword });
+
+    return handleResponse(res, 200, {
+      message: 'Password changed successfully',
+    });
+  } catch (error) {
     return handleServerError(res);
   }
 };

@@ -1,6 +1,14 @@
 import { produce } from 'immer';
 
-import { LOGOUT_USER, REGISTRATION_SUCCESS, SET_LOGIN, SET_TOKEN, SET_USER } from '@containers/Client/constants';
+import {
+  LOGOUT_USER,
+  REGISTRATION_SUCCESS,
+  SET_LOGIN,
+  SET_TOKEN,
+  SET_USER,
+  SET_USER_BY_ID,
+} from '@containers/Client/constants';
+import { EDIT_PROFILE_SUCCESS } from '@pages/EditProfile/constants';
 
 export const initialState = {
   login: false,
@@ -8,6 +16,7 @@ export const initialState = {
   user: null,
   data: null,
   error: null,
+  currentUser: null,
 };
 
 export const storedKey = ['token', 'login', 'user'];
@@ -26,6 +35,12 @@ const clientReducer = (state = initialState, action) =>
         break;
       case REGISTRATION_SUCCESS:
         draft.data = action.data;
+        break;
+      case SET_USER_BY_ID:
+        draft.currentUser = action.payload;
+        break;
+      case EDIT_PROFILE_SUCCESS:
+        draft.currentUser = action.payload;
         break;
       case LOGOUT_USER:
         return initialState;

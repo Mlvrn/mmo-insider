@@ -54,9 +54,22 @@
     font-size: 2rem;
   }
   .postAuthor {
+    cursor: pointer;
+    @include flex-items-center;
+    gap: 0.5rem;
     font-size: 0.85rem;
     color: $color-text-secondary;
     margin: 0.5rem 0;
+    width: fit-content;
+    &:hover {
+      text-decoration: underline;
+    }
+    &:hover .avatar {
+      box-shadow: 0 0 10px 1px $color-secondary;
+    }
+    .avatar {
+      @include box(1.5rem);
+    }
   }
   .postImage {
     max-width: 40rem;
