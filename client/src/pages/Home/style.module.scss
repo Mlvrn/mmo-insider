@@ -22,30 +22,31 @@
       max-width: 40rem;
     }
     .heroTitle {
-      font-size: 2.25rem;
+      font-size: 2rem;
       font-weight: bold;
       background-image: linear-gradient(to bottom, $color-secondary, $color-primary);
       color: transparent;
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+
       @include apply-at-md-size {
         font-size: 3rem;
       }
     }
     .heroSubtitle {
-      font-size: 1rem;
+      font-size: 1.25rem;
       @include apply-at-md-size {
         font-size: 1.5rem;
       }
     }
     .heroDescription {
       margin-top: 1rem;
-      font-size: 0.5rem;
+      font-size: 0.7rem;
       max-width: 15rem;
       @include apply-at-md-size {
         width: 20rem;
-        font-size: 0.6rem;
+        font-size: 0.75rem;
       }
     }
     .heroButton {

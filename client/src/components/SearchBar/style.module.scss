@@ -5,6 +5,7 @@
   border: 1px solid $color-secondary;
   border-radius: 1rem;
   padding: 0.25rem 0.75rem;
+  @include hover-shine;
 
   .searchInput {
     font-family: 'Quantico', 'sans-serif';

@@ -2,7 +2,6 @@
 
 .headerWrapper {
   background-color: transparent !important;
-  // box-shadow: 0 0.25rem 0.75rem rgba(25, 49, 83, 0.2) !important;
   position: fixed;
   top: 0;
   width: 100%;
@@ -19,7 +18,14 @@
       @include directionX;
       cursor: pointer;
       align-items: center;
-
+      &:hover {
+        transform: scale(1.05);
+        text-shadow: 0 0 10px $color-secondary;
+      }
+      &:hover .logo {
+        transition: all 0.65s;
+        transform: rotateY(360deg);
+      }
       .logo {
         width: 1.5rem;
         height: 1.5rem;

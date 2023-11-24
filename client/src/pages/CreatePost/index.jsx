@@ -18,7 +18,6 @@ const CreatePost = ({ token, intl: { formatMessage } }) => {
   const [title, setTitle] = useState('');
   const [shortDescription, setShortDescription] = useState('');
   const [mainImage, setMainImage] = useState(null);
-  const [selectedFileName, setSelectedFileName] = useState('');
   const [content, setContent] = useState('');
   const [preview, setPreview] = useState('');
 
@@ -26,7 +25,6 @@ const CreatePost = ({ token, intl: { formatMessage } }) => {
     if (files.length > 0) {
       const file = files[0];
       setMainImage(file);
-      setSelectedFileName(file.name); // This can be removed if you don't need the file name anymore
       setPreview(URL.createObjectURL(file));
     }
   };

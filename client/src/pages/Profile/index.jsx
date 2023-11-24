@@ -10,12 +10,13 @@ import { FormattedMessage } from 'react-intl';
 import PostCard from '@components/PostCard';
 import BackButton from '@components/BackButton';
 
+import { selectUser } from '@containers/Client/selectors';
 import { selectAuthor, selectUserPosts } from './selectors';
 import { getPostsByUsername, getUserByUsername } from './actions';
 
 import classes from './style.module.scss';
 
-const Profile = ({ userPosts, author }) => {
+const Profile = ({ userPosts, author, user }) => {
   const { username } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Profile = ({ userPosts, author }) => {
     dispatch(getPostsByUsername(username));
   }, [dispatch, username]);
 
-  const isUser = author?.username === username;
+  const isUser = user?.username === username;
   return (
     <div className={classes.container}>
       <div className={classes.profileContainer}>
@@ -69,11 +70,13 @@ const Profile = ({ userPosts, author }) => {
 Profile.propTypes = {
   userPosts: PropTypes.array,
   author: PropTypes.object,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
   userPosts: selectUserPosts,
   author: selectAuthor,
+  user: selectUser,
 });
 
 export default connect(mapStateToProps)(Profile);

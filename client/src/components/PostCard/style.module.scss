@@ -12,7 +12,7 @@
     }
     .voteButton {
       cursor: pointer;
-      @include box(2.25rem);
+      @include box(1.25rem);
       @include apply-at-md-size {
         @include box(1.5rem);
       }

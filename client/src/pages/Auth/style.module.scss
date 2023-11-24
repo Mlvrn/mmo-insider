@@ -12,9 +12,13 @@
 
 .title {
   text-align: center;
+
   .logo {
     font-family: 'Bungee Spice', 'sans-serif';
     cursor: pointer;
+    &:hover {
+      text-shadow: 0 0 10px $color-secondary;
+    }
   }
 }
 
